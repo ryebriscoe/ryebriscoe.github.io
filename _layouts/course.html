@@ -7,7 +7,7 @@ layout: default
     <p class="kicker">
       {{ page.institution }}{% if page.taken_as %} · taken as {{ page.taken_as }}{% endif %}
     </p>
-    <h1>CST {{ page.code }} — {{ page.title }}</h1>
+    <h1>CST {{ page.code }}: {{ page.title }}</h1>
     <p class="lede">
       <span class="badge is-{{ page.status }}">
         {% case page.status %}
@@ -32,7 +32,7 @@ layout: default
     <p>{{ page.catalog }}</p>
   </blockquote>
   <p style="font-size: 12px; color: var(--text-faint)">
-    Source: CSUMB Catalog 2025–2026.
+    Source: CSUMB Catalog, 2025 to 2026.
   </p>
 
   {% if page.project %}

@@ -11,7 +11,7 @@ permalink: /coursework/
 
 <h1>Coursework</h1>
 <p class="lede">
-  Every course on my degree plan — {{ ordered | size }} total. Each page carries
+  Every course on my degree plan, {{ ordered | size }} total. Each page carries
   the CSUMB catalog description and the final project for that course.
 </p>
 
@@ -21,13 +21,13 @@ permalink: /coursework/
   <span><i class="swatch planned"></i> planned</span>
 </div>
 
-<h2>CS Online — CSUMB</h2>
+<h2>CS Online at CSUMB</h2>
 {% include grid.html courses=online %}
 
-<h2>On campus — CSUMB</h2>
+<h2>On campus at CSUMB</h2>
 {% include grid.html courses=campus %}
 
-<h2>Transfer — West Valley College</h2>
+<h2>Transfer from West Valley College</h2>
 <p>
   Lower-division prerequisites that the CS Online program requires be completed
   outside CSUMB. Each is listed under its CSUMB equivalent.
