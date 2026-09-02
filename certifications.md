@@ -18,7 +18,7 @@ permalink: /certifications/
     </p>
     <p>
       Professional Certificate. Machine learning and deep learning for production
-      AI systems — model building, training, and deployment.
+      AI systems, covering model building, training, and deployment.
     </p>
     <ul class="chips">
       <li>Python</li>
@@ -77,6 +77,6 @@ permalink: /certifications/
 </ul>
 
 <div class="todo">
-  <strong>TODO —</strong> Add target completion dates, and swap each badge to
+  <strong>TODO:</strong> Add target completion dates, and swap each badge to
   <code>is-completed</code> with a credential link as you finish them.
 </div>
