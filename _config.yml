@@ -47,5 +47,4 @@ exclude:
   - Gemfile.lock
   - vendor
 
-# photo: /assets/img/ariya.jpg
-photo:
+photo: /assets/img/ariya.jpg
