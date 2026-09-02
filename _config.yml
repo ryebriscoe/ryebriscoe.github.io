@@ -1,0 +1,51 @@
+title: Ariya Briscoe
+tagline: B.S. Computer Science, Software Engineering
+description: >-
+  Individual Learning Plan and portfolio for Ariya Briscoe, B.S. Computer
+  Science at California State University Monterey Bay.
+url: "https://ryebriscoe.github.io"
+baseurl: ""
+
+author:
+  name: Ariya Briscoe
+  email: ariyabriscoe@gmail.com
+
+social:
+  github: https://github.com/ryebriscoe
+  linkedin: https://www.linkedin.com/in/ariya-briscoe-523b653aa/
+
+school:
+  name: California State University, Monterey Bay
+  program: Computer Science Online, B.S.
+  concentration: Software Engineering
+  graduation: Fall 2026
+
+collections:
+  courses:
+    output: true
+    permalink: /courses/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: courses
+    values:
+      layout: course
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-seo-tag
+
+exclude:
+  - README.md
+  - catalog-reference.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+# photo: /assets/img/ariya.jpg
+photo:

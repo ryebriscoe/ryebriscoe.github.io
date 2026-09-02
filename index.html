@@ -1,0 +1,123 @@
+---
+layout: default
+title: null
+---
+
+{% assign done = site.courses | where: "status", "completed" %}
+{% assign active = site.courses | where: "status", "in_progress" %}
+{% assign later = site.courses | where: "status", "planned" %}
+{% assign ordered = site.courses | sort: "code" %}
+
+<div class="hero">
+  {% if site.photo %}
+    <img class="hero-photo" src="{{ site.photo | relative_url }}" alt="Ariya Briscoe" />
+  {% else %}
+    <div
+      class="hero-photo"
+      style="display:flex;align-items:center;justify-content:center;color:var(--text-faint);font-size:11px;text-align:center;background:var(--surface-2)"
+    >
+      add photo
+    </div>
+  {% endif %}
+  <div>
+    <h1>Ariya Briscoe</h1>
+    <p class="lede">{{ site.tagline }}</p>
+    <p class="hero-meta">
+      <span class="k">program</span> {{ site.school.program }}<br />
+      <span class="k">concentration</span> {{ site.school.concentration }}<br />
+      <span class="k">graduating</span> {{ site.school.graduation }}<br />
+      <span class="k">progress</span> {{ done | size }} completed ·
+      {{ active | size }} in progress · {{ later | size }} remaining
+    </p>
+  </div>
+</div>
+
+<h2>About me</h2>
+
+<p>
+  I was twelve the first time I opened up a computer that mattered. My mom's
+  MacBook had stopped charging, and I spent hours working through repair videos,
+  stripping back the charger and holding specific wires together until the light
+  came on. It ran for about five minutes before it sparked and I short-circuited
+  the whole machine.
+</p>
+
+<p>
+  That should have put me off. Instead it did the opposite — I wanted to know
+  exactly what I had gotten wrong. I started building PCs, and by thirteen I was
+  pulling apart networks, running Wireshark, and learning what an IP address
+  actually was because I wanted to understand the games I was playing. The
+  curiosity never really switched off; it just got more formal.
+</p>
+
+<p>
+  I am finishing a B.S. in Computer Science at CSU Monterey Bay with a Software
+  Engineering focus, graduating {{ site.school.graduation }}. Right now I am
+  building <a href="{{ '/projects/' | relative_url }}">B.A.D.</a>, a computer
+  vision system that recognizes basketball plays from video, and working through
+  a set of <a href="{{ '/certifications/' | relative_url }}">certifications</a>
+  in AI engineering and project management.
+</p>
+
+<h2>The program</h2>
+
+<p>
+  In the CS Online program at CSUMB, students learn fundamental computer science
+  concepts while applying them to real-world problems. The curriculum is heavily
+  project-based, with collaboration, teamwork, and communication built into the
+  coursework. Students complete a common core that establishes a foundation in
+  programming, systems, and theory, then move into concentration coursework —
+  in my case Software Engineering — before a culminating capstone project that
+  integrates the whole degree.
+</p>
+
+<div class="todo">
+  <strong>TODO —</strong> Replace this paragraph with the official CS Online
+  program outcomes language if your instructor expects the exact wording. Check
+  the program page or your CST 300 materials.
+</div>
+
+<h2>Goals</h2>
+
+<p>
+  My goal is to move into software engineering with a focus on applied machine
+  learning — systems where a model is one component inside real infrastructure,
+  not the whole product. B.A.D. is the clearest example of what I want to build:
+  a computer vision pipeline feeding a vision-language model, evaluated honestly
+  against a held-out answer key.
+</p>
+
+<p>
+  Alongside the degree I am working through the IBM AI Engineering Professional
+  Certificate, Generative AI with Large Language Models, and the Google Project
+  Management Career Certificate, so that I graduate with production experience
+  in the tools and not only coursework in the theory.
+</p>
+
+<div class="todo">
+  <strong>TODO —</strong> This is drafted from what you told me. Rewrite it in
+  your own voice before you submit — it is the part that is actually graded.
+</div>
+
+<h2>Coursework</h2>
+
+<div class="legend">
+  <span><i class="swatch done"></i> completed</span>
+  <span><i class="swatch active"></i> in progress</span>
+  <span><i class="swatch planned"></i> planned</span>
+</div>
+
+{% include grid.html courses=ordered %}
+
+<p><a href="{{ '/coursework/' | relative_url }}">Full coursework list &rarr;</a></p>
+
+<h2>Elsewhere</h2>
+
+<p class="hero-meta">
+  <span class="k">github</span>
+  <a href="{{ site.social.github }}">github.com/ryebriscoe</a><br />
+  <span class="k">linkedin</span>
+  <a href="{{ site.social.linkedin }}">ariya-briscoe</a><br />
+  <span class="k">email</span>
+  <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+</p>
