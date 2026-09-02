@@ -10,15 +10,15 @@ permalink: /projects/
   <a href="{{ '/coursework/' | relative_url }}">individual course pages</a>.
 </p>
 
-<h2>B.A.D. basketball action detection</h2>
+<h2>B.A.D. — basketball action detection</h2>
 <p class="lede">
   <span class="badge is-in_progress">in progress</span> &nbsp; private repository
 </p>
 
 <p>
   A zero-shot system that watches a basketball clip and names the offensive play
-  being run. Pick and roll, Spain pick and roll, horns, floppy, pistol, or
-  transition. The model is never shown the answer. A held out label set is used
+  being run — pick and roll, Spain pick-and-roll, horns, floppy, pistol, or
+  transition. The model is never shown the answer; a held-out label set is used
   only to score how often it is right.
 </p>
 
@@ -53,9 +53,9 @@ permalink: /projects/
 
 <p>
   An end-to-end content system that takes a scheduled trigger and produces a
-  published video with no human in the loop. Five stages run in sequence. Reddit ingest, script generation, speech
-  synthesis, video render, then upload. Each stage sits in its own module
-  behind a defined interface.
+  published video with no human in the loop. Five stages run in sequence —
+  Reddit ingest, script generation, speech synthesis, video render, upload —
+  each isolated in its own module behind a defined interface.
 </p>
 
 <p>
@@ -108,7 +108,7 @@ permalink: /projects/
 </ul>
 
 <div class="todo">
-  <strong>TODO:</strong> Add a screenshot or short clip for each project.
-  Drop images in <code>assets/img/</code> and reference them here. A visual
+  <strong>TODO —</strong> Add a screenshot or short clip for each project.
+  Drop images in <code>assets/img/</code> and reference them here — a visual
   makes these land far harder than text alone.
 </div>
