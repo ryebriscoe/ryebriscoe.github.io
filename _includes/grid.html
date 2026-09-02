@@ -1,0 +1,11 @@
+{% assign items = include.courses %}
+<ul class="grid">
+  {% for c in items %}
+    <li>
+      <a class="tile is-{{ c.status }}" href="{{ c.url | relative_url }}">
+        <span class="code">CST {{ c.code }}</span>
+        <span class="name">{{ c.short | default: c.title }}</span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

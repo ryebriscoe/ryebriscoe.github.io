@@ -1,0 +1,12 @@
+<nav class="site-nav" aria-label="Main">
+  {% assign nav_items = "/,home|/coursework/,coursework|/projects/,projects|/certifications/,certifications" | split: "|" %}
+  {% for item in nav_items %}
+    {% assign parts = item | split: "," %}
+    {% assign href = parts[0] %}
+    <a
+      href="{{ href | relative_url }}"
+      {% if page.url == href %}aria-current="page"{% elsif href != "/" and page.url contains href %}aria-current="page"{% endif %}
+      >{{ parts[1] }}</a
+    >
+  {% endfor %}
+</nav>
