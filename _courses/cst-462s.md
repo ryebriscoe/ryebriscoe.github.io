@@ -22,3 +22,9 @@ The paper separates the two problems from the start. Misinformation is false inf
 Each of the three of us took a separate article through a full literature review and then through original analysis, so the paper carries three independent lines of evidence before it converges. I owned Article 1 in both the review and the research sections. The paper closes with recommended solutions and a section on where further research is needed.
 
 Written for the service learning component of the course in Fall 2025.
+
+{% comment %}
+TODO: write your reflection here.
+Add a "## What I took from it" heading, then two or three paragraphs.
+What clicked, what was hardest, and where you have used it since.
+{% endcomment %}
