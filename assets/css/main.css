@@ -404,6 +404,63 @@ hr {
   margin-top: 0;
 }
 
+a.card {
+  display: block;
+  color: inherit;
+  border: 1px solid var(--border);
+}
+
+a.card:hover {
+  border-color: var(--accent);
+}
+
+a.card h3 {
+  color: var(--accent);
+}
+
+.card .meta {
+  font-size: 12px;
+  color: var(--text-faint);
+  margin: 0 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  max-width: none;
+}
+
+/* ---------- progress bar ---------- */
+
+.cert-progress {
+  margin: 1rem 0 0;
+}
+
+.cert-progress .track {
+  height: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cert-progress .fill {
+  display: block;
+  height: 100%;
+  min-width: 2px;
+  background: var(--accent-dim);
+}
+
+.cert-progress .fill.is-full {
+  background: var(--accent);
+}
+
+.cert-progress .pct {
+  display: block;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 0.45rem;
+}
+
 .card p {
   font-size: 13px;
   color: var(--text-dim);
