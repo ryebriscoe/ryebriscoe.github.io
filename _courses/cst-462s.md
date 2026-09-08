@@ -15,13 +15,11 @@ project: "The Spread of Misinformation on Social and Video Platforms"
 tech: ["Research writing", "Literature review", "Team project"]
 ---
 
-A 21 page team research paper written with Agam Aujla and Evan Barnes on how misinformation and disinformation move through social media and video platforms.
+A team research paper on how false information moves through social media and video platforms, written with Agam Aujla and Evan Barnes.
 
-The paper separates the two problems from the start. Misinformation is false information spread without intent to deceive, disinformation is false information spread deliberately, and platforms amplify both through the same mechanics. We looked at Facebook, X, and video platforms specifically.
+The paper separates misinformation, spread by accident, from disinformation, spread on purpose, and shows how platforms amplify both through the same machinery. Each of us carried a separate study through a full literature review and original analysis, so three independent lines of evidence converge before the paper makes its recommendations.
 
-Each of the three of us took a separate article through a full literature review and then through original analysis, so the paper carries three independent lines of evidence before it converges. I owned Article 1 in both the review and the research sections. The paper closes with recommended solutions and a section on where further research is needed.
-
-Written for the service learning component of the course in Fall 2025.
+**[Read the paper]({{ "/assets/docs/misinformation-on-social-and-video-platforms.pdf" | relative_url }})**
 
 {% comment %}
 TODO: write your reflection here.

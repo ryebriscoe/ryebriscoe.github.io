@@ -382,6 +382,31 @@ hr {
   overflow-wrap: break-word;
 }
 
+/* ---------- research paper ---------- */
+
+.paper {
+  max-width: 46rem;
+}
+
+.paper h3 {
+  margin: 2.25rem 0 0.5rem;
+  color: var(--accent);
+  font-size: 14px;
+}
+
+.paper p {
+  margin: 0 0 1.1rem;
+}
+
+.paper .ref {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding-left: 2rem;
+  text-indent: -2rem;
+  margin-bottom: 0.9rem;
+  overflow-wrap: break-word;
+}
+
 /* ---------- cards ---------- */
 
 .cards {
