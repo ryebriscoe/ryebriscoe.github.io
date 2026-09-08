@@ -1,0 +1,47 @@
+# Certifications shown on /certifications/
+#
+# progress: whole number 0-100. Omit it entirely and no bar renders,
+#   which is the right state for a certificate you have not started.
+# status:   in_progress | planned | completed
+# credential: only once earned. Replaces the progress bar with a
+#   "View credential" link.
+#
+# To update progress, change one number here. Nothing else to touch.
+
+- name: Google Project Management
+  issuer: Google Career Certificate
+  url: https://grow.google/certificates/project-management
+  status: in_progress
+  progress: 28
+  blurb: >-
+    Project planning, execution, risk management, and Agile delivery.
+  tech: [Agile, Scrum, Stakeholder management]
+
+- name: IBM AI Engineering
+  issuer: IBM Professional Certificate
+  url: https://www.coursera.org/professional-certificates/ai-engineer
+  status: in_progress
+  progress: 23
+  blurb: >-
+    Machine learning and deep learning for production AI systems, covering
+    model building, training, and deployment.
+  tech: [Python, Deep learning, Model deployment]
+
+- name: Generative AI with Large Language Models
+  issuer: DeepLearning.AI and AWS
+  url: https://www.coursera.org/learn/generative-ai-with-llms
+  status: in_progress
+  # progress: add your percentage here
+  blurb: >-
+    Transformer architecture, prompt engineering, fine-tuning, and the
+    lifecycle of deploying an LLM backed application.
+  tech: [LLMs, Fine-tuning, Prompt engineering]
+
+- name: Google Advanced Data Analytics
+  issuer: Google Career Certificate
+  url: https://grow.google/certificates/data-analytics/advanced
+  status: planned
+  blurb: >-
+    Statistical analysis, regression modeling, and machine learning applied
+    to business problems.
+  tech: [Statistics, Regression, Python]

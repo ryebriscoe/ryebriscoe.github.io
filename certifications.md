@@ -4,6 +4,8 @@ title: Certifications
 permalink: /certifications/
 ---
 
+{% assign certs = site.data.certifications %}
+
 <h1>Certifications</h1>
 <p class="lede">
   Professional certificates I am working through alongside the degree, chosen to
@@ -11,73 +13,55 @@ permalink: /certifications/
 </p>
 
 <ul class="cards">
-  <li class="card">
-    <h3>IBM AI Engineering</h3>
-    <p class="lede">
-      <span class="badge is-in_progress">in progress</span>
-    </p>
-    <p>
-      Professional Certificate. Machine learning and deep learning for production
-      AI systems — model building, training, and deployment.
-    </p>
-    <ul class="chips">
-      <li>Python</li>
-      <li>Deep learning</li>
-      <li>Model deployment</li>
-    </ul>
-  </li>
+  {% for c in certs %}
+    <li>
+      <a class="card" href="{{ c.url }}">
+        <h3>{{ c.name }}</h3>
+        <p class="meta">
+          <span class="badge is-{{ c.status }}">
+            {%- case c.status -%}
+              {%- when "completed" -%}completed
+              {%- when "in_progress" -%}in progress
+              {%- else -%}planned
+            {%- endcase -%}
+          </span>
+          {{ c.issuer }}
+        </p>
 
-  <li class="card">
-    <h3>Generative AI with Large Language Models</h3>
-    <p class="lede">
-      <span class="badge is-in_progress">in progress</span>
-    </p>
-    <p>
-      Transformer architecture, prompt engineering, fine-tuning, and the
-      lifecycle of deploying an LLM-backed application.
-    </p>
-    <ul class="chips">
-      <li>LLMs</li>
-      <li>Fine-tuning</li>
-      <li>Prompt engineering</li>
-    </ul>
-  </li>
+        <p>{{ c.blurb }}</p>
 
-  <li class="card">
-    <h3>Google Project Management</h3>
-    <p class="lede">
-      <span class="badge is-in_progress">in progress</span>
-    </p>
-    <p>
-      Career Certificate. Project planning, execution, risk management, and
-      Agile delivery.
-    </p>
-    <ul class="chips">
-      <li>Agile</li>
-      <li>Scrum</li>
-      <li>Stakeholder management</li>
-    </ul>
-  </li>
+        {% if c.progress %}
+          <div class="cert-progress">
+            <div
+              class="track"
+              role="progressbar"
+              aria-valuenow="{{ c.progress }}"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-label="{{ c.name }} progress"
+            >
+              <span
+                class="fill{% if c.progress >= 100 %} is-full{% endif %}"
+                style="width: {{ c.progress }}%"
+              ></span>
+            </div>
+            <span class="pct">{{ c.progress }}% complete</span>
+          </div>
+        {% endif %}
 
-  <li class="card">
-    <h3>Google Advanced Data Analytics</h3>
-    <p class="lede">
-      <span class="badge is-planned">considering</span>
-    </p>
-    <p>
-      Career Certificate. Statistical analysis, regression modeling, and machine
-      learning applied to business problems.
-    </p>
-    <ul class="chips">
-      <li>Statistics</li>
-      <li>Regression</li>
-      <li>Python</li>
-    </ul>
-  </li>
+        {% if c.tech %}
+          <ul class="chips">
+            {% for t in c.tech %}<li>{{ t }}</li>{% endfor %}
+          </ul>
+        {% endif %}
+      </a>
+    </li>
+  {% endfor %}
 </ul>
 
 {% comment %}
-TODO: add target completion dates for each certificate.
-Swap each badge to is-completed with a credential link as you finish.
-Also decide whether to keep Google Advanced Data Analytics.
+TODO: add the percentage for Generative AI with Large Language Models in
+_data/certifications.yml, and a progress value for Google Advanced Data
+Analytics once you start it. Swap status to completed and add a credential
+link as each one finishes.
 {% endcomment %}
