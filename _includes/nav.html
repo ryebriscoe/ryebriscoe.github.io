@@ -1,12 +1,19 @@
+{%- comment -%}
+Resolve the current section first. Course pages live under /courses/ but belong
+to the coursework tab, so a plain URL prefix match on the nav href misses them.
+{%- endcomment -%}
+{%- assign section = "home" -%}
+{%- if page.url == "/coursework/" or page.url contains "/courses/" -%}
+  {%- assign section = "coursework" -%}
+{%- elsif page.url contains "/projects/" -%}
+  {%- assign section = "projects" -%}
+{%- elsif page.url contains "/certifications/" -%}
+  {%- assign section = "certifications" -%}
+{%- endif -%}
+
 <nav class="site-nav" aria-label="Main">
-  {% assign nav_items = "/,home|/coursework/,coursework|/projects/,projects|/certifications/,certifications" | split: "|" %}
-  {% for item in nav_items %}
-    {% assign parts = item | split: "," %}
-    {% assign href = parts[0] %}
-    <a
-      href="{{ href | relative_url }}"
-      {% if page.url == href %}aria-current="page"{% elsif href != "/" and page.url contains href %}aria-current="page"{% endif %}
-      >{{ parts[1] }}</a
-    >
-  {% endfor %}
+  <a href="{{ '/' | relative_url }}"{% if section == "home" %} aria-current="page"{% endif %}>home</a>
+  <a href="{{ '/coursework/' | relative_url }}"{% if section == "coursework" %} aria-current="page"{% endif %}>coursework</a>
+  <a href="{{ '/projects/' | relative_url }}"{% if section == "projects" %} aria-current="page"{% endif %}>projects</a>
+  <a href="{{ '/certifications/' | relative_url }}"{% if section == "certifications" %} aria-current="page"{% endif %}>certifications</a>
 </nav>
