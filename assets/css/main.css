@@ -382,21 +382,6 @@ hr {
   overflow-wrap: break-word;
 }
 
-.todo {
-  border: 1px dashed #854f0b;
-  background: #2a1c05;
-  color: #fac775;
-  border-radius: 4px;
-  padding: 0.75rem 1rem;
-  font-size: 13px;
-  margin: 1.25rem 0;
-}
-
-.todo strong {
-  color: #ef9f27;
-  font-weight: 500;
-}
-
 /* ---------- cards ---------- */
 
 .cards {
