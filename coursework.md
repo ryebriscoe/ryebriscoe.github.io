@@ -14,6 +14,10 @@ permalink: /coursework/
   Every course on my degree plan — {{ ordered | size }} total. Each page carries
   the CSUMB catalog description and the final project for that course.
 </p>
+<p class="lede">
+  I am currently going back through my coursework to find the projects and
+  assignments worth adding, so the project sections are still filling in.
+</p>
 
 <div class="legend">
   <span><i class="swatch done"></i> completed</span>
