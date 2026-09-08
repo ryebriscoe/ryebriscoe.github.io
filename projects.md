@@ -107,8 +107,8 @@ permalink: /projects/
   <li>JavaScript</li>
 </ul>
 
-<div class="todo">
-  <strong>TODO —</strong> Add a screenshot or short clip for each project.
-  Drop images in <code>assets/img/</code> and reference them here — a visual
-  makes these land far harder than text alone.
-</div>
+{% comment %}
+TODO: add a screenshot or short clip for each project.
+Drop images in assets/img/ and reference them here.
+For B.A.D., an annotated frame with detection boxes.
+{% endcomment %}

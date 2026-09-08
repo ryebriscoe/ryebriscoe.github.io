@@ -76,7 +76,8 @@ permalink: /certifications/
   </li>
 </ul>
 
-<div class="todo">
-  <strong>TODO —</strong> Add target completion dates, and swap each badge to
-  <code>is-completed</code> with a credential link as you finish them.
-</div>
+{% comment %}
+TODO: add target completion dates for each certificate.
+Swap each badge to is-completed with a credential link as you finish.
+Also decide whether to keep Google Advanced Data Analytics.
+{% endcomment %}
