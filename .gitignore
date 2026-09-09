@@ -7,4 +7,3 @@ vendor/
 .DS_Store
 catalog-reference.md
 TODO.md
-strip-claude-trailers.sh

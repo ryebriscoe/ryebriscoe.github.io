@@ -17,7 +17,7 @@ permalink: /projects/
 
 <p>
   A zero-shot system that watches a basketball clip and names the offensive play
-  being run — pick and roll, Spain pick-and-roll, horns, floppy, pistol, or
+  being run: pick and roll, Spain pick-and-roll, horns, floppy, pistol, or
   transition. The model is never shown the answer; a held-out label set is used
   only to score how often it is right.
 </p>
@@ -53,9 +53,9 @@ permalink: /projects/
 
 <p>
   An end-to-end content system that takes a scheduled trigger and produces a
-  published video with no human in the loop. Five stages run in sequence —
-  Reddit ingest, script generation, speech synthesis, video render, upload —
-  each isolated in its own module behind a defined interface.
+  published video with no human in the loop. Five stages run in sequence: Reddit ingest, script generation, speech
+  synthesis, video render, and upload. Each one is isolated in its own module
+  behind a defined interface.
 </p>
 
 <p>
