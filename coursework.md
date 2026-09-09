@@ -11,7 +11,7 @@ permalink: /coursework/
 
 <h1>Coursework</h1>
 <p class="lede">
-  Every course on my degree plan — {{ ordered | size }} total. Each page carries
+  Every course on my degree plan, {{ ordered | size }} in total. Each page carries
   the CSUMB catalog description and the final project for that course.
 </p>
 <p class="lede">
