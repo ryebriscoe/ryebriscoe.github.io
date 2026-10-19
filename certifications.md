@@ -59,9 +59,3 @@ permalink: /certifications/
   {% endfor %}
 </ul>
 
-{% comment %}
-TODO: add the percentage for Generative AI with Large Language Models in
-_data/certifications.yml, and a progress value for Google Advanced Data
-Analytics once you start it. Swap status to completed and add a credential
-link as each one finishes.
-{% endcomment %}
