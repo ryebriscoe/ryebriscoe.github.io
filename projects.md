@@ -10,101 +10,92 @@ permalink: /projects/
   <a href="{{ '/coursework/' | relative_url }}">individual course pages</a>.
 </p>
 
-<h2>B.A.D. — basketball action detection</h2>
+<h2>B.A.D. (Basketball Action Detector)</h2>
 <p class="lede">
-  <span class="badge is-in_progress">in progress</span> &nbsp; private repository
+  <span class="badge is-in_progress">in progress</span> &nbsp; independent research &middot; private repository
 </p>
 
 <p>
-  A zero-shot system that watches a basketball clip and names the offensive play
-  being run: pick and roll, Spain pick-and-roll, horns, floppy, pistol, or
-  transition. The model is never shown the answer; a held-out label set is used
-  only to score how often it is right.
+  A computer vision system that watches NBA broadcast footage and names the
+  offensive play being run: pick and roll, Spain pick and roll, horns, floppy,
+  pistol, or transition. The model is never shown the answer. A held-out label
+  set is only used to score how often it gets it right.
 </p>
 
 <p>
-  A Roboflow computer vision model detects players, the ball, and the rim in each
-  frame. A tracking layer follows each player across frames, separates the two
-  teams by jersey color, projects positions onto a court diagram, and flags shot
-  attempts. That structure is rendered back onto the clip as boxes, player IDs,
-  and team tags. A vision-language model (Qwen3-VL) then watches the annotated
-  video and returns, in strict JSON, the play it believes is being run and its
-  reasoning. Unlabeled clips can be run blind through the same path.
+  It runs as a multi-stage pipeline. RF-DETR detects players, the ball, and the
+  rim in each frame. ByteTrack follows each player across frames, and players are
+  split into teams by jersey color. EasyOCR reads the scoreboard, and a homography
+  maps player positions onto a court diagram. All of that is drawn back onto the
+  clip, and Qwen3-VL, the vision-language model at the core, watches the annotated
+  video and returns the play it thinks is being run and why, in strict JSON.
 </p>
 
 <p>
-  The notebook is generated from a single build script rather than edited
-  directly, so the Colab artifact and the source stay in sync.
+  The Colab notebook is generated from a single builder script instead of being
+  edited by hand, so the notebook and the source never drift apart.
 </p>
 
 <ul class="chips">
   <li>Python</li>
-  <li>Roboflow</li>
   <li>Qwen3-VL</li>
-  <li>Computer vision</li>
-  <li>Object tracking</li>
+  <li>RF-DETR</li>
+  <li>ByteTrack</li>
+  <li>EasyOCR</li>
+  <li>Homography</li>
   <li>Google Colab</li>
 </ul>
 
-<h2>Automated video content pipeline</h2>
-<p class="lede">
-  <a href="https://github.com/ryebriscoe/video-pipeline">github.com/ryebriscoe/video-pipeline</a>
+<h2>Automated short-form video pipeline</h2>
+<p class="lede">2025</p>
+
+<p>
+  A fully hands-off pipeline that writes, narrates, assembles, and publishes
+  kids' educational short-form videos to YouTube, Instagram, and TikTok. It has
+  produced 200+ videos and 600K+ total views.
 </p>
 
 <p>
-  An end-to-end content system that takes a scheduled trigger and produces a
-  published video with no human in the loop. Five stages run in sequence: Reddit ingest, script generation, speech
-  synthesis, video render, and upload. Each one is isolated in its own module
-  behind a defined interface.
-</p>
-
-<p>
-  The ingest stage pulls and scores trending story candidates, maintaining a
-  replenishing database so the pipeline never runs dry. Script generation selects
-  the next story and drafts narration and hooks through the Claude API. Narration
-  is synthesized with ElevenLabs, then composited into a vertical render with
-  background footage, timed captions, logo, and music. Distribution publishes via
-  the YouTube Data API using an OAuth refresh-token flow, with a parallel export
-  path to Instagram and Facebook, and an analytics stage that pulls view and
-  engagement metrics after publish.
-</p>
-
-<p>
-  Seven GitHub Actions workflows run it unattended: daily generation and upload,
-  weekly bulk generation, story replenishment, analytics collection, plus health
-  check and reset workflows for failure recovery. Assets live in Cloudflare R2
-  and secrets are injected through Actions rather than committed. A pytest suite
-  covers the pipeline stages, config management, story management, and the API
-  layer, and a local Flask dashboard provides run monitoring during development.
+  The Claude API writes each script, gTTS turns it into narration,
+  Pollinations.AI generates the visuals, and FFmpeg puts it all together into a
+  finished vertical video. n8n orchestrates the whole workflow on Railway.app, so
+  videos go out on a schedule across all three platforms without me touching
+  anything.
 </p>
 
 <ul class="chips">
-  <li>Python</li>
   <li>Claude API</li>
-  <li>ElevenLabs</li>
-  <li>YouTube Data API</li>
-  <li>Cloudflare R2</li>
-  <li>GitHub Actions</li>
-  <li>pytest</li>
-  <li>Flask</li>
+  <li>gTTS</li>
+  <li>Pollinations.AI</li>
+  <li>FFmpeg</li>
+  <li>n8n</li>
+  <li>Railway</li>
 </ul>
 
-<h2>SwipeMail</h2>
-<p class="lede">
-  <a href="https://github.com/ryebriscoe/swipemail">github.com/ryebriscoe/swipemail</a>
+<h2>Freelance web development</h2>
+<p class="lede">Self-employed &middot; Feb 2026 to present</p>
+
+<p>
+  I design, build, and launch responsive multi-page websites for small
+  businesses. So far that is three clients: a wellness practice, a card-reading
+  service, and a staffing firm.
 </p>
 
 <p>
-  A gamified email triage client. Messages are presented as a card deck you swipe
-  through rather than a list you scroll, with XP and daily goals to make clearing
-  an inbox a bounded task with an end state instead of an open-ended one.
+  Every project starts with a requirements call and a client questionnaire, so I
+  know how their booking and payment process already works before I build
+  anything. For the booking flow I integrated the Cal.com scheduling API, with
+  appointments that need the owner's approval. Sites deploy on Cloudflare Pages
+  with custom domains, and each release is versioned on GitHub.
 </p>
 
 <ul class="chips">
-  <li>React</li>
-  <li>Vite</li>
-  <li>Framer Motion</li>
+  <li>HTML</li>
+  <li>CSS</li>
   <li>JavaScript</li>
+  <li>Cal.com API</li>
+  <li>Cloudflare Pages</li>
+  <li>GitHub</li>
 </ul>
 
 {% comment %}

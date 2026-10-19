@@ -16,4 +16,5 @@ to the coursework tab, so a plain URL prefix match on the nav href misses them.
   <a href="{{ '/coursework/' | relative_url }}"{% if section == "coursework" %} aria-current="page"{% endif %}>coursework</a>
   <a href="{{ '/projects/' | relative_url }}"{% if section == "projects" %} aria-current="page"{% endif %}>projects</a>
   <a href="{{ '/certifications/' | relative_url }}"{% if section == "certifications" %} aria-current="page"{% endif %}>certifications</a>
+  <a href="{{ '/assets/docs/ariya-briscoe-resume.pdf' | relative_url }}">resume</a>
 </nav>
