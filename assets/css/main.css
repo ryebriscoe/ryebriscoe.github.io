@@ -417,28 +417,6 @@ hr {
   scroll-margin-top: 1rem;
 }
 
-/* sample input / output pairs on the CST 370 homework page */
-.io {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 0 1rem;
-}
-
-.io > div {
-  min-width: 0;
-}
-
-.paper .io-label {
-  margin: 0 0 0.35rem;
-  color: var(--text-faint);
-  font-size: 12px;
-}
-
-.io pre {
-  margin: 0 0 1.1rem;
-  font-size: 13px;
-}
-
 /* ---------- cards ---------- */
 
 .cards {
