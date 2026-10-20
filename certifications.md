@@ -12,9 +12,7 @@ permalink: /certifications/
   put production tooling behind the coursework.
 </p>
 <p>
-  These certificates are my capstone (CST 489/499 Certificate Track). The
-  proposal explains why I picked each one and the skill gaps they close.
-  <strong><a href="{{ '/assets/docs/capstone-certificate-track-proposal.pdf' | relative_url }}">Read the proposal</a></strong>
+  <strong><a href="{{ '/assets/docs/capstone-certificate-track-proposal.pdf' | relative_url }}">Certificate Track Proposal</a></strong>
 </p>
 
 <ul class="cards">
