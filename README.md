@@ -24,32 +24,6 @@ Every course in my degree has its own page with the catalog description and the 
 | [Computer networks projects](https://github.com/ryebriscoe/computer-networks-projects) | CST 311 | Java, Python |
 | [Tournament database](https://github.com/ryebriscoe/tournament-database) | CST 363 | PostgreSQL |
 
-## How I built it
-
-It's a Jekyll site hosted on GitHub Pages. I wrote the CSS myself instead of using a theme.
-
-Each course is its own Markdown file in `_courses/`. The info at the top of each file (course code, title, status, project, repo link) is what fills in the page. So when I finish a class, I just change its status to `completed` and the homepage count and badges update on their own. Certifications work the same way from `_data/certifications.yml`.
-
-```
-_courses/              one file per course
-_data/                 certification progress
-_layouts/              page templates
-_includes/             nav, footer, course grid
-assets/css/main.css    all the styling
-assets/docs/           PDFs (papers, proposal, resume)
-```
-
-## Running it locally
-
-You need Ruby installed.
-
-```bash
-bundle install
-bundle exec jekyll serve
-```
-
-Then open `localhost:4000`. Anything pushed to `main` gets deployed by GitHub Pages.
-
 ## Contact
 
 [GitHub](https://github.com/ryebriscoe) | [LinkedIn](https://www.linkedin.com/in/ariya-briscoe-523b653aa/) | ariyabriscoe@gmail.com
