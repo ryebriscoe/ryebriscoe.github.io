@@ -8,6 +8,17 @@
 #
 # To update progress, change one number here. Nothing else to touch.
 
+- name: Generative AI with Large Language Models
+  issuer: DeepLearning.AI and AWS
+  url: https://www.coursera.org/learn/generative-ai-with-llms
+  status: completed
+  completed: Oct 2026
+  credential: /assets/docs/genai-llm-certificate.pdf
+  blurb: >-
+    Transformer architecture, prompt engineering, fine-tuning, and the
+    lifecycle of deploying an LLM backed application.
+  tech: [LLMs, Fine-tuning, Prompt engineering]
+
 - name: Google Project Management
   issuer: Google Career Certificate
   url: https://grow.google/certificates/project-management
@@ -26,14 +37,3 @@
     Machine learning and deep learning for production AI systems, covering
     model building, training, and deployment.
   tech: [Python, Deep learning, Model deployment]
-
-- name: Generative AI with Large Language Models
-  issuer: DeepLearning.AI and AWS
-  url: https://www.coursera.org/learn/generative-ai-with-llms
-  status: in_progress
-  progress: 97
-  blurb: >-
-    Transformer architecture, prompt engineering, fine-tuning, and the
-    lifecycle of deploying an LLM backed application.
-  tech: [LLMs, Fine-tuning, Prompt engineering]
-

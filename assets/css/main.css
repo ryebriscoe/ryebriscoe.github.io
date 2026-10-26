@@ -489,6 +489,10 @@ a.card h3 {
   background: var(--accent);
 }
 
+.cert-progress .cert-link {
+  color: var(--accent);
+}
+
 .cert-progress .pct {
   display: block;
   font-size: 11px;

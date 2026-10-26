@@ -18,7 +18,7 @@ permalink: /certifications/
 <ul class="cards">
   {% for c in certs %}
     <li>
-      <a class="card" href="{{ c.url }}">
+      <a class="card" href="{% if c.credential %}{{ c.credential | relative_url }}{% else %}{{ c.url }}{% endif %}">
         <h3>{{ c.name }}</h3>
         <p class="meta">
           <span class="badge is-{{ c.status }}">
@@ -33,7 +33,12 @@ permalink: /certifications/
 
         <p>{{ c.blurb }}</p>
 
-        {% if c.progress %}
+        {% if c.credential %}
+          <div class="cert-progress">
+            <div class="track" aria-hidden="true"><span class="fill is-full" style="width: 100%"></span></div>
+            <span class="pct">Completed {{ c.completed }} &middot; <span class="cert-link">View certificate &rarr;</span></span>
+          </div>
+        {% elsif c.progress %}
           <div class="cert-progress">
             <div
               class="track"
