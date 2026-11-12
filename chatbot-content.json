@@ -1,0 +1,54 @@
+---
+layout: null
+permalink: /chatbot-content.json
+---
+{%- capture nl1 %}
+{% endcapture -%}
+{%- capture nl2 %}
+
+{% endcapture -%}
+{%- assign first = true -%}
+{"generated":{{ site.time | date_to_xmlschema | jsonify }},"documents":[
+{%- assign courses = site.courses | sort: "code" -%}
+{%- for c in courses -%}
+  {%- capture text -%}{% include chatbot-text.html html=c.content %}{%- endcapture -%}
+  {%- unless first %},{% endunless -%}{%- assign first = false %}
+{"id":{{ c.code | prepend: "cst-" | downcase | jsonify }},"type":"course","title":{{ c.title | prepend: " " | prepend: c.code | prepend: "CST " | jsonify }},"url":{{ c.url | jsonify }},"text":{{ text | strip | jsonify }}
+  {%- if c.status %},"status":{{ c.status | jsonify }}{% endif -%}
+  {%- if c.term %},"term":{{ c.term | jsonify }}{% endif -%}
+  {%- if c.tech and c.tech.size > 0 %},"tech":{{ c.tech | jsonify }}{% endif -%}
+  {%- if c.project %},"project":{{ c.project | jsonify }}{% endif -%}
+  {%- if c.repo %},"repo":{{ c.repo | jsonify }}{% endif -%}
+  {%- if c.catalog %},"catalog":{{ c.catalog | strip | jsonify }}{% endif -%}
+}
+{%- endfor -%}
+
+{%- capture projects_html %}{% include projects-body.html %}{% endcapture -%}
+{%- capture about_html %}{% include about-body.html %}{% endcapture -%}
+{%- assign sources = "project|/projects/,about|/" | split: "," -%}
+{%- for source in sources -%}
+  {%- assign src = source | split: "|" -%}
+  {%- if src[0] == "project" %}{% assign html = projects_html %}{% else %}{% assign html = about_html %}{% endif -%}
+  {%- assign parts = html | split: "<h2>" -%}
+  {%- for part in parts offset:1 -%}
+    {%- assign pieces = part | split: "</h2>" -%}
+    {%- assign title = pieces[0] | strip_html | strip -%}
+    {%- assign section_html = pieces[1] -%}
+    {%- capture text -%}{% include chatbot-text.html html=section_html %}{%- endcapture -%}
+    {%- assign text = text | strip -%}
+    {%- if text != "" -%}
+      {%- unless first %},{% endunless -%}{%- assign first = false %}
+{"id":{{ title | slugify | prepend: "-" | prepend: src[0] | jsonify }},"type":"page","title":{{ title | jsonify }},"url":{{ src[1] | jsonify }},"text":{{ text | jsonify }}}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+{%- for c in site.data.certifications -%}
+  {%- capture text -%}{{ c.issuer }}. {{ c.blurb | strip }}{% if c.progress %} Progress: {{ c.progress }}%.{% endif %}{%- endcapture -%}
+  {%- unless first %},{% endunless -%}{%- assign first = false %}
+{"id":{{ c.name | slugify | prepend: "cert-" | jsonify }},"type":"certification","title":{{ c.name | jsonify }},"url":"/certifications/","text":{{ text | jsonify }}
+  {%- if c.status %},"status":{{ c.status | jsonify }}{% endif -%}
+  {%- if c.tech and c.tech.size > 0 %},"tech":{{ c.tech | jsonify }}{% endif -%}
+}
+{%- endfor %}
+]}

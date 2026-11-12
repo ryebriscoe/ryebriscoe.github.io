@@ -1,0 +1,36 @@
+name: chatbot content
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build site
+        run: bundle exec jekyll build
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Unit tests
+        run: |
+          pip install pytest
+          pytest tests -v
+
+      - name: Validate chatbot-content.json
+        run: python scripts/validate_chatbot_content.py _site/chatbot-content.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chatbot-content
+          path: _site/chatbot-content.json

@@ -87,17 +87,35 @@ rebuilds it on every push (D8).
 }
 ```
 
+Courses also carry `catalog`, the catalog description from front matter.
+
 ### Sources
-- **Courses:** every item in `site.courses`. `text` is the rendered body with
-  HTML stripped. Liquid `{% comment %}` TODO blocks are removed by Jekyll at
-  build time, so draft reminders never reach the bot.
-- **Pages:** `projects.md`, `certifications.md`, and the home page
-  (`index.html`), each `type: "page"`.
-- **Certifications:** each entry in `_data/certifications.yml` becomes its own
-  `type: "certification"` document (name, issuer, status, progress, blurb, tech).
+- **Courses:** every item in `site.courses`.
+  - `id`: `cst-<code>`
+  - `title`: `CST <code> <title>`
+  - `text`: the rendered body converted to plain text
+  - Liquid `{% comment %}` TODO blocks are removed by Jekyll at build time,
+    so draft reminders never reach the bot.
+- **Pages:** the prose of `projects.md` and the home page lives in
+  `_includes/projects-body.html` and `_includes/about-body.html`. Both the
+  pages and the JSON template render these includes. Each `<h2>` section
+  becomes its own `type: "page"` document:
+  - `id`: `project-<slug>` or `about-<slug>`
+  - `url`: `/projects/` or `/`
+- **Certifications:** each entry in `_data/certifications.yml` becomes a
+  `type: "certification"` document.
+  - `url`: `/certifications/`
+  - `text`: `<issuer>. <blurb>`, plus ` Progress: N%.` when set
+  - also carries `status` and `tech`
+- Text uses blank lines between paragraphs.
+- HTML entities (e.g. `&rsquo;`) are left for the backend loader to decode,
+  because Liquid can't.
 - Missing fields are omitted, not emitted as `null`.
 
-`chatbot-content.json` is the only change to how the site is built.
+A CI workflow (`.github/workflows/chatbot-content.yml`) builds the site,
+runs `scripts/validate_chatbot_content.py` on the output, and uploads it as
+an artifact. Apart from the include refactor, this is the only change to
+how the site is built.
 
 ---
 

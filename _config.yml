@@ -44,8 +44,15 @@ exclude:
   - README.md
   - catalog-reference.md
   - docs
+  - scripts
+  - tests
+  - package.json
   - Gemfile
   - Gemfile.lock
   - vendor
+
+chatbot:
+  enabled: false
+  space: ""
 
 photo: /assets/img/ariya.jpg

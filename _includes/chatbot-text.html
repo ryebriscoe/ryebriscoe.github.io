@@ -1,0 +1,14 @@
+{%- comment -%}
+Converts include.html to plain text for chatbot-content.json.
+Paragraph and h3 ends become blank lines; list items become comma-separated;
+source line breaks inside a paragraph become spaces. Needs nl1 and nl2
+(captured newlines) from the including template.
+{%- endcomment -%}
+{{- include.html
+  | replace: "</p>", "@@P@@"
+  | replace: "</h3>", "@@P@@"
+  | replace: "</li>", ", "
+  | strip_html
+  | replace: nl1, " "
+  | replace: "@@P@@", nl2
+  | strip -}}
