@@ -43,6 +43,7 @@ plugins:
 exclude:
   - README.md
   - catalog-reference.md
+  - docs
   - Gemfile
   - Gemfile.lock
   - vendor

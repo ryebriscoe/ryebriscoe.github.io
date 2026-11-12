@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mockup A: Floating bubble chat (chosen, D6)</title>
+<style>
+  :root{--bg:#0b0b0b;--surface:#141414;--surface-2:#1a1a1a;--border:#2c2c2a;--border-strong:#3d3d3a;--text:#d3d1c7;--text-dim:#888780;--accent:#5dcaa5;--accent-dim:#1d9e75;--accent-bg:#04342c;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace}
+  body{margin:0;background:var(--bg);color:var(--text);font:14px/1.7 var(--mono);min-height:100vh}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:.85rem 1.5rem;display:flex;justify-content:space-between}
+  header .brand{color:var(--accent)} header nav{color:var(--text-dim)}
+  .line{height:10px;background:var(--surface-2);border-radius:4px;margin:16px 1.5rem}
+  .panel{position:fixed;right:24px;bottom:84px;width:360px;background:var(--surface);border:1px solid var(--border-strong);border-radius:10px}
+  .panel .top{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;color:var(--accent)}
+  .panel .top span:last-child{color:var(--text-dim)}
+  .msgs{padding:12px 14px}
+  .q{color:var(--text-dim)} .chip{display:inline-block;border:1px solid var(--border-strong);border-radius:4px;padding:0 8px;margin:6px 6px 0 0;color:var(--accent);font-size:12px}
+  .input{border-top:1px solid var(--border);padding:10px 14px;color:var(--text-dim)}
+  .bubble{position:fixed;right:24px;bottom:24px;background:var(--accent-bg);border:1px solid var(--accent-dim);color:var(--accent);border-radius:999px;padding:10px 20px}
+</style>
+</head>
+<body>
+  <header><span class="brand">ariya-briscoe</span><nav>home &nbsp; coursework &nbsp; projects &nbsp; certifications</nav></header>
+  <div class="line" style="width:40%"></div><div class="line" style="width:70%"></div>
+  <div class="line" style="width:55%"></div><div class="line" style="width:65%"></div>
+
+  <div class="panel" role="dialog" aria-label="Ask about Ariya">
+    <div class="top"><span>&gt;_ ask about ariya</span><span>x</span></div>
+    <div class="msgs">
+      <div class="q">&gt; what has he built with java?</div>
+      <div>A Spring Boot course registration system deployed on AWS EC2 (CST 438) and a JavaFX login app with JUnit tests (CST 338).</div>
+      <span class="chip">CST 438</span><span class="chip">CST 338</span>
+    </div>
+    <div class="input">$ type a question_</div>
+  </div>
+  <div class="bubble">&gt;_ ask</div>
+</body>
+</html>
