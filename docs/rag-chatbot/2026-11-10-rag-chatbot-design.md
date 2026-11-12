@@ -5,7 +5,7 @@
 **Status:** Approved 2026-11-12
 **Implementation plan:** [2026-11-12-rag-chatbot-plan.md](2026-11-12-rag-chatbot-plan.md)
 **Certificate:** Generative AI with Large Language Models (DeepLearning.AI and AWS)
-**Decision log:** [decisions.md](decisions.md) (D1–D14). This spec states
+**Decision log:** [decisions.md](decisions.md) (D1–D19). This spec states
 *what* gets built; the log records *why*.
 
 ---
@@ -161,8 +161,16 @@ portfolio-chatbot/
   at startup, outside any GPU function.
 - Index: a NumPy array of shape `(n_chunks, 384)` with L2-normalized rows, plus
   a parallel Python list of chunk dicts.
-- Search: `scores = vectors @ embed(query)`. Take the top-k by score and drop
-  any chunk below `min_score`.
+- Questions are embedded with the model's query prefix (D15).
+- Search: `scores = vectors @ embed(query) + keyword_weight * keyword(query)`.
+  The keyword part is an IDF-weighted share of the question's important
+  words found in each chunk (D16). Take the top-k by score and drop any
+  chunk below `min_score`.
+- If no chunk passes `min_score`, the bot sends the fixed "not covered"
+  reply without running the model. Refusal answers carry no sources (D17).
+- Two generated overview documents (skills, coursework by status) are added
+  to the content before chunking (D18).
+- `python -m rag.explain "question"` prints this whole step for one question (D19).
 - The retrieval query is the new question plus the previous user question,
   if there is one (D11).
 - `index.py` exposes one function, `search(query, k) -> list[Chunk]`, so a
@@ -185,8 +193,10 @@ portfolio-chatbot/
 | `content_url` | `https://ryebriscoe.github.io/chatbot-content.json` | |
 | `embed_model` | `BAAI/bge-small-en-v1.5` | |
 | `gen_model` | chosen by eval | |
+| `query_prefix` | `Represent this sentence for searching relevant passages: ` | Added to questions only (D15) |
 | `top_k` | 4 | |
-| `min_score` | tuned by eval (start 0.35) | Below this, the chunk is not used and not shown as a source |
+| `keyword_weight` | 0.2 | Tuned by eval (D16) |
+| `min_score` | 0.5 | Tuned by eval (D17). Below this, the chunk is not used and not shown as a source |
 | `history_turns` | 2 | |
 | `temperature` | 0.2 | |
 | `max_new_tokens` | 250 | |
@@ -270,7 +280,7 @@ Each entry looks like this:
   must_not_include: []
 ```
 
-There are ~30 entries: ~15 answerable, ~6 unanswerable, ~4 status, and ~5
+There are 32 entries: 16 answerable, 6 unanswerable, 5 status, and 5
 off-topic or rule-breaking.
 
 ### `run_eval.py`

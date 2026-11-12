@@ -26,6 +26,11 @@ about my coursework, projects, and certifications using the site's own content.
 | D12 | 2026-11-10 | The site always works; the widget fails gracefully and wakes the Space on open | Accepted |
 | D13 | 2026-11-10 | A 30-question test set with launch thresholds decides the model and prompt | Accepted |
 | D14 | 2026-11-10 | Backend code lives in its own public GitHub repo, auto-synced to the HF Space | Accepted |
+| D15 | 2026-11-12 | Questions get the embedding model's query prefix | Accepted |
+| D16 | 2026-11-12 | Search score = meaning + 0.2 × keyword match | Accepted |
+| D17 | 2026-11-12 | No matching chunks means a fixed "not covered" reply without the model; refusals show no sources | Accepted |
+| D18 | 2026-11-12 | Two generated overview documents answer big-picture questions | Accepted |
+| D19 | 2026-11-12 | An explain tool and a reading guide make the pipeline easy to follow | Accepted |
 
 ---
 
@@ -390,6 +395,119 @@ portfolio project of its own on GitHub.
 on GitHub as a project of its own. Keeping it apart from the portfolio repo
 means the two deploy pipelines never interfere. The sync Action is a short
 `git push` using an HF token stored as a repo secret.
+
+---
+
+## D15: Query prefix for the embedding model
+
+**Context.** `bge-small-en-v1.5` was trained to expect a short instruction in
+front of *questions* (not in front of the passages being searched):
+`Represent this sentence for searching relevant passages: `. The first build
+left it out.
+
+**Decision.** Add the prefix to every question before embedding it. It's the
+`query_prefix` setting.
+
+**Evidence.** On the evaluation set, the prefix moved the expected page to
+rank 1 for four questions, including the baseline's only miss ("When does he
+graduate?", rank 5 → 1). It made one question worse ("computer vision
+project", rank 4 → 7), which D16 fixes. Full numbers: [eval-results.md](eval-results.md).
+
+---
+
+## D16: Hybrid search: meaning plus a keyword bonus
+
+**Context.** Embeddings match on meaning, but they can rank an exact term
+too low. After D15, "Tell me about his computer vision project" ranked the
+B.A.D. project 7th, even though its text says "computer vision".
+
+**Options considered.**
+1. Retrieve more chunks (raise `top_k`). Longer prompts, slower answers.
+2. A bigger embedding model. Slower startup, and no guarantee for exact terms.
+3. Add a keyword score to the meaning score.
+
+**Decision.** Option 3. Each chunk's score is
+
+`score = meaning + 0.2 × keyword`
+
+- `meaning` is the cosine similarity of the embeddings.
+- `keyword` (0 to 1) is the share of the question's important words that
+  the chunk contains. Common words like "what" and "he" are ignored, and
+  rare words count more than common ones (IDF weighting).
+
+**Evidence.** Retrieval hit rate went from 95% (18/19) to 100% (19/19).
+Weights of 0.1, 0.2, and 0.3 all scored 19/19, so 0.2 is the middle of a
+stable range, not a lucky value.
+
+**Trade-off.** One more setting (`keyword_weight`) and about 40 lines of code
+in `rag/keywords.py`.
+
+---
+
+## D17: Fixed reply when nothing matches; no sources on refusals
+
+**Context.** A score probe showed the similarity scores for real questions
+(0.57–0.87) overlap with those for unanswerable and off-topic ones
+(0.44–0.72). The original `min_score` of 0.35 never filtered anything, and
+source links appeared under "not covered" answers. "Has he worked at
+Google?" would have shown the Google Project Management certificate as a source.
+
+**Decision.**
+- Raise `min_score` to 0.5. No real question in the evaluation set scores
+  that low.
+- If no chunk passes, reply with the exact "not covered" sentence from the
+  prompt **without running the model**. It's instant, uses no GPU time, and
+  can't invent anything.
+- If the model itself gives the "not covered" reply, show no sources.
+
+**Honest limit.** The cut-off only catches the most unrelated questions (2 of
+the 11 unanswerable and off-topic ones in the set). The rest still depend on
+the prompt rules in D11, which the answer evaluation measures.
+
+---
+
+## D18: Overview documents for big-picture questions
+
+**Context.** Search returns the top 4 chunks. "What programming languages
+does he know?" needs facts from many course pages at once, so no 4 chunks
+could answer it.
+
+**Decision.** At startup the backend generates two extra documents from the
+site content:
+- **Skills overview:** every technology with the course codes that used it
+  (e.g. `Java: CST 238, CST 311, CST 338, CST 438.`).
+- **Coursework overview:** courses grouped as completed, in progress, and
+  planned, plus certification status.
+
+Each opens with a sentence in the words recruiters use ("programming
+languages, frameworks, tools", "currently taking right now"), so it matches
+their questions.
+
+**Why.** They're built from the same content file, so they can't drift from
+the site. No change to the Jekyll site is needed.
+
+**Evidence.** Two questions were added to the evaluation set (now 32). Both
+retrieve an overview document, and the skills overview ranks 1st for the
+languages question. Retrieval hit rate is 100% (21/21).
+
+---
+
+## D19: Explain tool and reading guide
+
+**Context.** I need to understand and present every step of the pipeline.
+
+**Decision.**
+- `python -m rag.explain "question"` prints the top chunks for a question,
+  each score split into meaning and keyword, which chunks were kept or
+  dropped, and the exact context the model would receive. It runs on CPU in
+  seconds.
+- The backend README lists the files in the order a question flows through
+  them, one job per file.
+- One function, `build_index`, is shared by the app, the evaluation, and the
+  explain tool, so all three always search the same way.
+
+**Why.** The explain output doubles as presentation material: it shows
+retrieval working on a real question without needing the GPU.
 
 ---
 

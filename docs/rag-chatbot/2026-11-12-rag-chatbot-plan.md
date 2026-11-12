@@ -648,7 +648,7 @@ Run all commands from the backend repo root with the venv active:
   unanswerable clean, off-topic refusal, median TTFT, median total, notes.
   Its first rows are B6's retrieval runs.
 - Modify: `config.yaml` `gen_model` in the backend repo.
-- Modify: `docs/rag-chatbot/decisions.md` to add **D15: Generation model**,
+- Modify: `docs/rag-chatbot/decisions.md` to add the next decision (**D20: Generation model**),
   with the candidates, scores, choice, and why.
 
 - [ ] **Step 1: Shortlist 2–3 candidates.** Each must be a current 7–8B
@@ -671,7 +671,7 @@ Run all commands from the backend repo root with the venv active:
   Expected: the thresholds hold. Record the row.
 
 - [ ] **Step 5: Commit** the docs changes in the portfolio repo with the
-  message `"Record model selection (D15) and eval results"`.
+  message `"Record model selection (D20) and eval results"`.
 
 ---
 
@@ -826,7 +826,7 @@ Run all commands from the backend repo root with the venv active:
 **Files:**
 - Modify: `_config.yml` (`chatbot.enabled: true`)
 - Modify: `docs/rag-chatbot/eval-results.md`
-- Modify: `docs/rag-chatbot/decisions.md`, with D16 onward for any tuning
+- Modify: `docs/rag-chatbot/decisions.md`, with D21 onward for any tuning
   decisions such as a `min_score` change or prompt edits.
 - Modify: backend `config.yaml` / `rag/prompt.py` as tuning requires.
 
