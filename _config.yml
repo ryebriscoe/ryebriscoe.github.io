@@ -53,6 +53,6 @@ exclude:
 
 chatbot:
   enabled: false
-  space: ""
+  space: "rye22/ask-about-ariya"
 
 photo: /assets/img/ariya.jpg
