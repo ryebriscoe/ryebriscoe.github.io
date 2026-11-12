@@ -1,0 +1,10 @@
+{%- if site.chatbot.enabled and site.chatbot.space != "" -%}
+<div
+  id="chatbot"
+  data-space="{{ site.chatbot.space }}"
+  data-origin="{{ site.url }}"
+  data-email="{{ site.author.email }}"
+  data-linkedin="{{ site.social.linkedin }}"
+></div>
+<script type="module" src="{{ '/assets/js/chat.js' | relative_url }}"></script>
+{%- endif -%}

@@ -25,6 +25,13 @@ export function sourceHref(url, siteOrigin) {
   return "#";
 }
 
+// "CST 438 Software Engineering" -> "CST 438"; other titles stay as they are.
+export function chipLabel(title) {
+  if (typeof title !== "string" || !title.trim()) return "source";
+  const course = title.match(/^CST \d+[A-Za-z]?\b/);
+  return course ? course[0] : title.trim();
+}
+
 export function appendTurn(history, question, answer, maxTurns = HISTORY_TURNS) {
   return [...history, [question, answer]].slice(-maxTurns);
 }

@@ -5,6 +5,7 @@ import {
   MAX_QUESTION_CHARS,
   SUGGESTIONS,
   appendTurn,
+  chipLabel,
   sourceHref,
   statusMessage,
   validateQuestion,
@@ -62,6 +63,13 @@ test("statusMessage uses the exact copy", () => {
     statusMessage("quota", "a@b.c"),
     "You've reached today's free limit for the assistant. Try again later, or reach Ariya at a@b.c or LinkedIn.",
   );
+});
+
+test("chipLabel shortens course titles and keeps others", () => {
+  assert.equal(chipLabel("CST 438 Software Engineering"), "CST 438");
+  assert.equal(chipLabel("CST 462S Race, Gender, Class in the Digital World"), "CST 462S");
+  assert.equal(chipLabel("B.A.D. — basketball action detection"), "B.A.D. — basketball action detection");
+  assert.equal(chipLabel(""), "source");
 });
 
 test("suggestions pair a short label with a full question", () => {

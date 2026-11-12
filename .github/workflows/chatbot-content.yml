@@ -35,3 +35,11 @@ jobs:
         with:
           name: chatbot-content
           path: _site/chatbot-content.json
+
+      - name: Build widget preview (chatbot enabled, localhost URL)
+        run: bundle exec jekyll build --config _config.yml,_config.preview.yml -d _site_preview
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-preview
+          path: _site_preview
