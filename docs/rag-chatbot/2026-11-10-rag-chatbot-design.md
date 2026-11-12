@@ -198,7 +198,7 @@ The widget calls these endpoints through `@gradio/client`.
 
 | Endpoint | Input | Output |
 |---|---|---|
-| `/ask` | `question: str`, `history: list[[user, bot]]` | Stream of `{"delta": str}` events, then a final `{"sources": [{"title", "url"}], "done": true}` |
+| `/ask` | `question: str`, `history: list[[user, bot]]` | Stream of cumulative `{"answer": str, "sources": [], "done": false}` events, then a final `{"answer", "sources": [{"id", "title", "url"}], "done": true}`; errors are a single `{"error": "empty" \| "too long" \| "unavailable", "done": true}`. Cumulative text can't be lost if an event is dropped |
 | `/warmup` | none | `{"ready": true}`. Returns as soon as the app is up, with no GPU use |
 
 Sources are the deduplicated documents of the chunks that scored at least
