@@ -12,9 +12,10 @@ One row per run of the evaluation set (decision D13). Each row is produced by
 
 ## Retrieval tuning (search only, no language model)
 
-The first four runs used a local copy of the site content built from the Markdown
-sources, because the real export is built by GitHub. Rerun them on the real
-`chatbot-content.json`. The last run confirms them on the real file.
+The first four runs used a local copy of the site content built from the
+Markdown sources, because the real export is built by GitHub. The last run
+repeats the final settings on the real `chatbot-content.json` from CI and
+gets the same result.
 
 | Date | Change | Retrieval hit | Settings | Notes |
 |---|---|---|---|---|
