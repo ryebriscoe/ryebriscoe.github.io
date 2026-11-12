@@ -12,9 +12,9 @@ One row per run of the evaluation set (decision D13). Each row is produced by
 
 ## Retrieval tuning (search only, no language model)
 
-These runs used a local copy of the site content built from the Markdown
+The first four runs used a local copy of the site content built from the Markdown
 sources, because the real export is built by GitHub. Rerun them on the real
-`chatbot-content.json` once it is deployed.
+`chatbot-content.json`. The last run confirms them on the real file.
 
 | Date | Change | Retrieval hit | Settings | Notes |
 |---|---|---|---|---|
@@ -22,6 +22,7 @@ sources, because the real export is built by GitHub. Rerun them on the real
 | 2026-11-12 | + query prefix (D15) | 95% (18/19) | top_k=4 | Fixed the graduation miss and 3 other rankings, but "computer vision project" dropped from rank 4 to 7 |
 | 2026-11-12 | + keyword bonus 0.2 (D16) | 100% (19/19) | top_k=4, keyword_weight=0.2 | Weights 0.1, 0.2, and 0.3 all scored 19/19; 0.2 chosen as the middle value |
 | 2026-11-12 | + overview documents (D18), 2 new questions | 100% (21/21) | top_k=4, min_score=0.5, keyword_weight=0.2 | "What programming languages does he know?" now retrieves the skills overview at rank 1 |
+| 2026-11-12 | Same settings, **real** `chatbot-content.json` from CI | 100% (21/21) | top_k=4, min_score=0.5, keyword_weight=0.2 | Real export has the same 28 document ids as the local copy; result confirmed |
 
 **What the score probe showed (D17).** With this embedding model, the best
 chunk for a real question scores 0.57–0.87 and the best chunk for an
