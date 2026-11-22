@@ -1,12 +1,11 @@
 # Certifications shown on /certifications/
 #
-# progress: whole number 0-100. Omit it entirely and no bar renders,
-#   which is the right state for a certificate you have not started.
-# status:   in_progress | planned | completed
-# credential: only once earned. Replaces the progress bar with a
-#   "View credential" link.
-#
-# To update progress, change one number here. Nothing else to touch.
+# status:     in_progress | planned | completed
+# completed:  month earned, shown on the card (completed certs only)
+# credential: path to the certificate PDF. Shows a "View certificate" button.
+# verify:     optional public verification link. Shows a "Verify" button.
+# courses_done / courses_total: course count for in-progress certs.
+#   The progress bar is worked out from these.
 
 - name: Generative AI with Large Language Models
   issuer: DeepLearning.AI and AWS
@@ -22,17 +21,21 @@
 - name: Google Project Management
   issuer: Google Career Certificate
   url: https://grow.google/certificates/project-management
-  status: in_progress
-  progress: 50
+  status: completed
+  completed: Nov 2026
+  credential: /assets/docs/google-project-management-certificate.pdf
+  verify: https://www.credly.com/go/aeLTHZ74
   blurb: >-
-    Project planning, execution, risk management, and Agile delivery.
+    Project planning, execution, risk management, and Agile delivery across
+    7 courses, finished with a real-world capstone project.
   tech: [Agile, Scrum, Stakeholder management]
 
 - name: IBM AI Engineering
   issuer: IBM Professional Certificate
   url: https://www.coursera.org/professional-certificates/ai-engineer
   status: in_progress
-  progress: 30
+  courses_done: 9
+  courses_total: 13
   blurb: >-
     Machine learning and deep learning for production AI systems, covering
     model building, training, and deployment.
