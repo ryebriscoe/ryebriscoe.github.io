@@ -13,6 +13,7 @@
   status: completed
   completed: Oct 2026
   credential: /assets/docs/genai-llm-certificate.pdf
+  verify: https://coursera.org/verify/0NQA51NQZ676
   blurb: >-
     Transformer architecture, prompt engineering, fine-tuning, and the
     lifecycle of deploying an LLM backed application.
@@ -24,7 +25,7 @@
   status: completed
   completed: Nov 2026
   credential: /assets/docs/google-project-management-certificate.pdf
-  verify: https://www.credly.com/go/aeLTHZ74
+  verify: https://coursera.org/verify/professional-cert/IEDU3RK074YQ
   blurb: >-
     Project planning, execution, risk management, and Agile delivery across
     7 courses, finished with a real-world capstone project.
