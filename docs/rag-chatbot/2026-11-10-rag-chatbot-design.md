@@ -55,7 +55,7 @@ Three parts, each understandable on its own:
 |---|---|---|---|
 | Content export | this repo (`chatbot-content.json`) | Turn site content into one JSON document list | Jekyll only |
 | RAG backend | new repo `portfolio-chatbot` → HF Space | Index content; answer questions with sources | The content JSON URL |
-| Chat widget | this repo (`assets/js/chat.js`, CSS) | UI: send questions, stream answers, show sources | The Space's API |
+| Chat widget | this repo (`assets/js/chatbot/chat.js`, CSS) | UI: send questions, stream answers, show sources | The Space's API |
 
 ---
 
@@ -223,7 +223,7 @@ returns an error event without calling the model.
 ## 5. Chat widget (Jekyll site)
 
 ### Files
-- `assets/js/chat.js`: plain JavaScript (D7), loaded as
+- `assets/js/chatbot/chat.js`: plain JavaScript (D7), loaded as
   `<script type="module">` from `_layouts/default.html`. Module scripts are
   deferred automatically. It imports `@gradio/client` from jsDelivr with a
   pinned version.

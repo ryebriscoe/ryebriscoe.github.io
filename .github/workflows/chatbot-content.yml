@@ -26,7 +26,7 @@ jobs:
         run: |
           pip install pytest
           pytest tests -v
-          node --test "tests/js/*.test.mjs"
+          node --test "tests/chatbot/js/*.test.mjs"
 
       - name: Validate chatbot-content.json
         run: python scripts/validate_chatbot_content.py _site/chatbot-content.json

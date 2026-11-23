@@ -10,7 +10,7 @@ import {
   splitOnLinkedIn,
   statusMessage,
   validateQuestion,
-} from "../../assets/js/chat-core.js";
+} from "../../../assets/js/chatbot/chat-core.js";
 
 const ORIGIN = "https://ryebriscoe.github.io";
 

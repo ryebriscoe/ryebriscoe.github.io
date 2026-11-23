@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
 from validate_chatbot_content import validate  # noqa: E402
 
@@ -100,7 +100,7 @@ def test_expected_counts_come_from_the_site(tmp_path):
 def test_real_site_counts_match_its_files():
     from validate_chatbot_content import expected_counts
 
-    site = Path(__file__).resolve().parent.parent
+    site = Path(__file__).resolve().parents[2]
     courses, certs = expected_counts(site)
     assert courses == len(list((site / "_courses").glob("*.md")))
     assert certs >= 1

@@ -11,7 +11,7 @@ permalink: /chatbot-content.json
 {"generated":{{ site.time | date_to_xmlschema | jsonify }},"documents":[
 {%- assign courses = site.courses | sort: "code" -%}
 {%- for c in courses -%}
-  {%- capture text -%}{% include chatbot-text.html html=c.content %}{%- endcapture -%}
+  {%- capture text -%}{% include chatbot/text.html html=c.content %}{%- endcapture -%}
   {%- unless first %},{% endunless -%}{%- assign first = false %}
 {"id":{{ c.code | prepend: "cst-" | downcase | jsonify }},"type":"course","title":{{ c.title | prepend: " " | prepend: c.code | prepend: "CST " | jsonify }},"url":{{ c.url | jsonify }},"text":{{ text | strip | jsonify }}
   {%- if c.status %},"status":{{ c.status | jsonify }}{% endif -%}
@@ -34,7 +34,7 @@ permalink: /chatbot-content.json
     {%- assign pieces = part | split: "</h2>" -%}
     {%- assign title = pieces[0] | strip_html | strip -%}
     {%- assign section_html = pieces[1] -%}
-    {%- capture text -%}{% include chatbot-text.html html=section_html %}{%- endcapture -%}
+    {%- capture text -%}{% include chatbot/text.html html=section_html %}{%- endcapture -%}
     {%- assign text = text | strip -%}
     {%- if text != "" -%}
       {%- unless first %},{% endunless -%}{%- assign first = false %}
