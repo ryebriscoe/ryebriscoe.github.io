@@ -38,6 +38,8 @@ about my coursework, projects, and certifications using the site's own content.
 | D24 | 2026-11-23 | Model on Groq: gpt-oss-20b, chosen by a 32-question comparison | Accepted |
 | D25 | 2026-11-23 | Launch the chat bubble on the live site after a 9-point widget checklist | Accepted |
 | D26 | 2026-11-23 | Choose source links by what the answer says; use the previous question only for follow-ups | Accepted |
+| D27 | 2026-11-23 | Rebuild the search index from the live site every hour, in the background | Accepted |
+| D28 | 2026-11-23 | Limit each visitor to 10 questions a minute and 100 a day | Accepted |
 
 ---
 
@@ -788,6 +790,75 @@ and CST 489.
 
 Also fixed: the "unavailable" message said "LinkedIn" twice. The word in the
 sentence is now the link.
+
+---
+
+## Final code review (2026-11-23)
+
+After launch I reviewed all the code in both repositories against the spec
+and plan (backend: `rag/`, `app.py`, `eval/`; site: the widget, content
+template, validator, and CI). I did the review myself rather than with a
+separate reviewer, which is weaker than an independent review.
+
+**Strengths found.** Each file has one job and the pipeline reads as
+numbered steps. Model and user text are only ever rendered as plain text
+(a test enforces it). Links are limited to http(s) and site pages. No
+secrets are in the code. The five risks the plan flagged (HTML in answers,
+link schemes, padded or over-long questions, missing fields, malformed
+history) all have tests.
+
+**Findings and what was done** (graded by the effect on a visitor):
+
+| # | Severity | Finding | Outcome |
+|---|---|---|---|
+| 1 | Important | The index was built once at startup. With Groq the Space rarely restarts, so site edits never reached the bot, and a failed first load stayed "unavailable" until a restart | Fixed: D27 |
+| 2 | Important | The public `/ask` API had no per-visitor limit, so one script could use up the shared daily Groq allowance for everyone | Fixed: D28 |
+| 3 | Important | Groq failures (rate limit 429, network errors, an error message mid-stream, an empty final chunk) crashed the request instead of returning a clear error | Fixed: model errors now return `busy` (429) or `unavailable`, tested against a fake server |
+| 4 | Minor | `app.py` docstring didn't mention `/warmup`'s `model` field | Fixed |
+| 5 | Minor | A timed-out request isn't cancelled before the widget's automatic retry | Deferred |
+| 6 | Minor | After 48 h without visitors the Space sleeps; the first visitor waits for it to wake | Deferred (the widget shows "waking up") |
+| 7 | Minor | The limit message says "today's free limit" even when the per-minute limit was hit | Deferred |
+
+Each Important fix was test-first (11 new tests, all passing; backend suite
+130). All three were verified on the live site.
+
+---
+
+## D27: Hourly content refresh
+
+**Context.** Review finding 1. The backend read `chatbot-content.json` only
+at startup.
+
+**Decision.** A `RefreshingIndex` rebuilds the index when it's older than
+`content_refresh_minutes` (60), in a background thread, while visitors keep
+getting answers from the old one. If a rebuild fails (for example the site is
+briefly down), the old index stays and another try happens a minute later.
+The same retry recovers a Space that started while the site was unreachable.
+Each question uses one snapshot of the index, so a refresh can't change the
+pages mid-answer.
+
+**Effect.** Edits to the portfolio reach the bot within about an hour of
+GitHub Pages deploying them, with no restart needed.
+
+---
+
+## D28: Per-visitor question limits
+
+**Context.** Review finding 2. All visitors share one free Groq account
+(about 1,000 requests a day, 30 a minute), and the Space's API is public.
+
+**Decision.** Each visitor, identified by IP address, gets 10 questions a
+minute and 100 a day that reach the model. Refused questions and "not
+covered" replies don't count, since they never call Groq. Over the limit,
+the widget shows the "try again later" message with my email and LinkedIn.
+On Hugging Face the visitor's address comes from the first `X-Forwarded-For`
+entry. The 32-question evaluation now waits 6.5 s between questions.
+
+**Live check.** From one computer, 10 quick questions were answered and the
+11th was refused; the bubble then showed the limit message. Limitation: a
+single computer can't prove that different visitors are counted separately;
+that relies on Hugging Face's proxy setting `X-Forwarded-For`, as is
+standard, and on the unit tests.
 
 ---
 
