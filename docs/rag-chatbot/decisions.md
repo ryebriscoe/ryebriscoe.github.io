@@ -37,6 +37,7 @@ about my coursework, projects, and certifications using the site's own content.
 | D23 | 2026-11-23 | Write answers with Groq's hosted API instead of ZeroGPU, so visitors never hit a GPU limit | Accepted |
 | D24 | 2026-11-23 | Model on Groq: gpt-oss-20b, chosen by a 32-question comparison | Accepted |
 | D25 | 2026-11-23 | Launch the chat bubble on the live site after a 9-point widget checklist | Accepted |
+| D26 | 2026-11-23 | Choose source links by what the answer says; use the previous question only for follow-ups | Accepted |
 
 ---
 
@@ -732,10 +733,61 @@ freelance work?") was answered correctly in 2.3 s with the freelance page as
 the first source.
 
 **Known issues at launch** (cosmetic, logged below):
-- Source chips are sometimes weak. "Tell me about his basketball project"
+- (Fixed in D26) Source chips are sometimes weak. "Tell me about his basketball project"
   showed About me, Goals, and Coursework overview instead of the B.A.D.
   project page, and two chips can link to the same page.
-- The unavailable message says "LinkedIn" twice (in the sentence and as the link).
+- The unavailable message says "LinkedIn" twice (in the sentence and as the link). Fixed in D26.
+
+---
+
+## D26: Better source links
+
+**Context.** After launch, source links were often weak. In one live
+session, "What AI certifications is he working on?" linked Coursework
+overview, Goals, and About me (not Certifications). The next question, "Tell
+me about his basketball project", didn't link the B.A.D. page at all.
+
+**Diagnosis** (with `rag.explain` on the live content):
+1. **Topic changes were mixed with the previous question.** To handle
+   follow-ups, the search always included the previous question, so the
+   basketball search was really "AI certifications + basketball project".
+   Asked on its own, the B.A.D. page ranked 2nd.
+2. **Sources followed the search ranking, not the answer.** For "Has he
+   finished his capstone?" the Google Project Management certificate ranked
+   1st because its text says "capstone project", although the answer was
+   about CST 499.
+3. **Two links could go to the same page** (About me and Goals both go to `/`).
+
+**Decisions.**
+1. The previous question is added to the search only for follow-ups: the
+   question uses a referring word (it, that, those, more, ...) or is three
+   words or fewer ("what tech?").
+2. Sources are ranked by **match to the final answer + 0.5 × search score**,
+   and only pages within 0.1 of the best are shown (`source_margin`,
+   `source_retrieval_weight`). Matching the answer costs one extra embedding,
+   a few milliseconds on CPU.
+3. Each page is linked at most once.
+
+**Evidence** (the 21 questions with an expected page, replaying the saved
+gpt-oss-20b answers through the real pipeline, no model calls):
+
+| Source method | Expected page shown | Average links per answer |
+|---|---|---|
+| Before: search order | 20/21 | 2.8 |
+| Answer match only | 20/21 (graduation lost "About me") | 1.3 |
+| **Answer match + 0.5 × search score (chosen)** | **21/21** | **1.2** |
+
+The blend keeps short, generic answers ("He will graduate in Fall 2026.")
+linked to the page the search found first.
+
+**Live check.** Repeating the same session on ryebriscoe.github.io after
+deploying, the AI certifications question now links IBM AI Engineering, the
+basketball question links the B.A.D. project page, and the follow-up "What
+tools does it use?" links B.A.D. only. The capstone question links CST 499
+and CST 489.
+
+Also fixed: the "unavailable" message said "LinkedIn" twice. The word in the
+sentence is now the link.
 
 ---
 
@@ -746,11 +798,7 @@ the first source.
   ZeroGPU runs limit" for anonymous requests. Each visitor has their own
   allowance, and the widget already shows a "try again later" message for
   this (D12). Watch whether real visitors hit it.
-- **Less relevant source links.** "Has he done any freelance work?" showed
-  the freelance page plus About me and CST 300. "Tell me about his
-  basketball project" didn't show the B.A.D. page at all, and two chips can
-  point to the same page. Options: show only sources that score close to the
-  top match, remove duplicate pages, or boost project pages.
+- **(Resolved by D26) Less relevant source links.**
 
 - Custom domain (e.g. ariyabriscoe.com) pointed at GitHub Pages: buy or not.
   A domain doesn't require leaving Pages, and the D1/D3 design is unaffected.
