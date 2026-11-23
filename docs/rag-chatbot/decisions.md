@@ -31,7 +31,9 @@ about my coursework, projects, and certifications using the site's own content.
 | D17 | 2026-11-12 | No matching chunks means a fixed "not covered" reply without the model; refusals show no sources | Accepted |
 | D18 | 2026-11-12 | Two generated overview documents answer big-picture questions | Accepted |
 | D19 | 2026-11-12 | An explain tool and a reading guide make the pipeline easy to follow | Accepted |
+| D20 | 2026-11-22 | Generation model: shortlist of four open models, chosen by the evaluation | In progress |
 | D21 | 2026-11-22 | On ZeroGPU: embed with ONNX (not torch) and use the GPU only for generation | Accepted |
+| D22 | 2026-11-22 | Run the model comparison on my Google Colab Pro (school account) | Accepted |
 
 ---
 
@@ -512,9 +514,43 @@ retrieval working on a real question without needing the GPU.
 
 ---
 
-## D21: Deploying on ZeroGPU: ONNX embeddings, GPU only for generation
+## D20: Choosing the generation model (in progress)
 
-(D20 is reserved for the generation model choice.)
+**Context.** The first live test used a 360M-parameter placeholder model. It
+retrieved the right pages but wrote poor answers. It padded with invented
+details and answered "No" to "Has he done any freelance work?" with the
+freelance page in its context. Retrieval works; the model needs replacing.
+
+**Requirements for a candidate.**
+- Open weights under a permissive license, with no access request (so the
+  Space can download it without my credentials).
+- Text-only chat model that fits ZeroGPU and a Colab GPU in bf16 (7–8B or smaller).
+- Good at answering only from provided context.
+
+**Shortlist** (all Apache-2.0, checked on the Hugging Face Hub 2026-11-22):
+
+| Model | Size | Why |
+|---|---|---|
+| Qwen3-8B | 8.2B | Strongest candidate, run with "thinking" turned off |
+| Qwen2.5-7B-Instruct | 7.6B | Proven, very widely used baseline for RAG |
+| Qwen3-4B-Instruct-2507 | 4B | Half the size: faster answers and half the GPU time per visitor |
+| Granite 3.3 8B Instruct (IBM) | 8B | Non-Qwen comparison, built for business Q&A |
+
+**Left out.** Llama 3.1 8B and Gemma 3 require an access request. Qwen 3.5
+9B is a vision-language model that needs a different loader.
+
+**Supporting change.** Qwen3 models write a hidden "thinking" section
+before answering by default. The generator now turns thinking off and strips
+any leftover `<think>` block from the stream (tested).
+
+**How the winner is chosen.** All four answer the same 32 questions with
+the same prompt and settings as the live Space (D13, D22). The winner is the
+best-rated model that meets the thresholds. If two are close, the smaller,
+faster one wins.
+
+---
+
+## D21: Deploying on ZeroGPU: ONNX embeddings, GPU only for generation
 
 **Context.** The first deploys to the Space (2026-11-22) failed in three ways:
 1. **Build:** `requirements.txt` pinned `spaces==0.51.3`, but Hugging Face
@@ -548,6 +584,34 @@ and a real question streams from the GPU in about 7 s.
 right page retrieved. It said "No" to "Has he done any freelance work?"
 while the freelance page was in its context. That's what model selection
 (D20) is for.
+
+---
+
+## D22: Run the model comparison on Google Colab Pro
+
+**Context.** Comparing four 7–8B models on 32 questions needs a GPU for
+roughly 30–45 minutes.
+
+**Options considered.**
+
+| Option | Where it runs | Downside |
+|---|---|---|
+| My own PC (RTX 4070 Ti SUPER, 16 GB) | Locally | Ties up my GPU, which I also use for games; 16 GB means 4-bit, not the Space's bf16 |
+| The Hugging Face Space | ZeroGPU | Free tier allows about 5 GPU minutes a day: roughly one model per day |
+| Google Colab (free) | Google T4, 16 GB | 4-bit only, so results differ slightly from the Space |
+| **Google Colab Pro (my school account)** | Google L4 (24 GB) or A100 | Uses some of my Pro compute units |
+
+**Decision.** Colab Pro.
+
+**Why.**
+- It doesn't use my PC or my Hugging Face GPU allowance.
+- 24 GB+ GPUs run the models in **bf16**, the same precision the live Space
+  uses, so the scores reflect what visitors will actually get.
+- One **Run all** tests all four models in sequence (each in its own
+  process so GPU memory is freed). The notebook then downloads a comparison
+  table, a rating sheet, and the raw results.
+- The production bot still runs on Hugging Face, never on my PC. Colab is
+  only for this one-time comparison.
 
 ---
 
