@@ -2,7 +2,7 @@
 
 **Author:** Ariya Briscoe
 **Date:** 2026-11-10
-**Status:** Approved 2026-11-12
+**Status:** Implemented and live 2026-11-23 (see decisions D20–D25 for changes since approval)
 **Implementation plan:** [2026-11-12-rag-chatbot-plan.md](2026-11-12-rag-chatbot-plan.md)
 **Certificate:** Generative AI with Large Language Models (DeepLearning.AI and AWS)
 **Decision log:** [decisions.md](decisions.md) (D1–D19). This spec states

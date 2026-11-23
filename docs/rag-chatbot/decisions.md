@@ -36,6 +36,7 @@ about my coursework, projects, and certifications using the site's own content.
 | D22 | 2026-11-22 | Run the model comparison on my Google Colab Pro (school account) | Accepted |
 | D23 | 2026-11-23 | Write answers with Groq's hosted API instead of ZeroGPU, so visitors never hit a GPU limit | Accepted |
 | D24 | 2026-11-23 | Model on Groq: gpt-oss-20b, chosen by a 32-question comparison | Accepted |
+| D25 | 2026-11-23 | Launch the chat bubble on the live site after a 9-point widget checklist | Accepted |
 
 ---
 
@@ -708,16 +709,48 @@ failed deploy meant one run was mislabeled; that run was discarded.
 
 ---
 
+## D25: Launch
+
+**Widget checklist** (preview build of the site with the bubble on, run in a
+browser on 2026-11-23):
+
+| # | Check | Result |
+|---|---|---|
+| 1 | Bubble opens the panel; focus moves to the input; suggestions, disclosure, and 0/500 counter show; Send disabled when empty | Pass |
+| 2 | A suggestion chip asks its question; the answer streams in word by word; source chips appear | Pass |
+| 3 | Typed question sent with Enter; the input clears | Pass |
+| 4 | Follow-up ("What tools does it use?") understands "it" from the previous question | Pass |
+| 5 | Esc closes the panel and returns focus to the bubble | Pass |
+| 6 | A 501-character question: counter turns red, Send disabled, cannot be submitted | Pass |
+| 7 | Source chips link to real pages on the site | Pass |
+| 8 | Phone width (375 px): panel fills the width with 12 px margins, no sideways scroll | Pass |
+| 9 | Space unavailable: "unavailable" message with email, LinkedIn link, and Retry; rest of the page unaffected | Pass |
+
+**Decision.** Set `chatbot.enabled: true` and merged to `main` on
+2026-11-23. The first live question on ryebriscoe.github.io ("Has he done any
+freelance work?") was answered correctly in 2.3 s with the freelance page as
+the first source.
+
+**Known issues at launch** (cosmetic, logged below):
+- Source chips are sometimes weak. "Tell me about his basketball project"
+  showed About me, Goals, and Coursework overview instead of the B.A.D.
+  project page, and two chips can link to the same page.
+- The unavailable message says "LinkedIn" twice (in the sentence and as the link).
+
+---
+
 ## Open questions
 
-- **ZeroGPU limits for anonymous visitors.** On 2026-11-23, after a day of
+- **(Resolved by D23) ZeroGPU limits for anonymous visitors.** On 2026-11-23, after a day of
   testing from my connection, the Space answered "You have exceeded your
   ZeroGPU runs limit" for anonymous requests. Each visitor has their own
   allowance, and the widget already shows a "try again later" message for
   this (D12). Watch whether real visitors hit it.
 - **Less relevant source links.** "Has he done any freelance work?" showed
-  the freelance page plus About me and CST 300 as sources. Consider showing
-  only sources that score close to the top match.
+  the freelance page plus About me and CST 300. "Tell me about his
+  basketball project" didn't show the B.A.D. page at all, and two chips can
+  point to the same page. Options: show only sources that score close to the
+  top match, remove duplicate pages, or boost project pages.
 
 - Custom domain (e.g. ariyabriscoe.com) pointed at GitHub Pages: buy or not.
   A domain doesn't require leaving Pages, and the D1/D3 design is unaffected.
