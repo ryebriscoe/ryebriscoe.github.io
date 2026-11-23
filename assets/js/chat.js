@@ -130,7 +130,11 @@ function start(root) {
         if (msg.stage === "error") throw failure(/quota/i.test(msg.message || "") ? "quota" : "error", msg.message);
       } else if (msg.type === "data") {
         const event = msg.data?.[0] || {};
-        if (event.error) throw failure(event.error === "unavailable" ? "unavailable" : "error", event.error);
+        if (event.error) {
+          // rate_limited: this visitor hit the per-visitor limit (D28); busy: the model API is rate-limited
+          const kind = { unavailable: "unavailable", rate_limited: "quota" }[event.error] || "error";
+          throw failure(kind, event.error);
+        }
         setStatus(null);
         if (event.answer) answerEl.textContent = event.answer;
         if (event.done) return event;
