@@ -31,7 +31,7 @@ about my coursework, projects, and certifications using the site's own content.
 | D17 | 2026-11-12 | No matching chunks means a fixed "not covered" reply without the model; refusals show no sources | Accepted |
 | D18 | 2026-11-12 | Two generated overview documents answer big-picture questions | Accepted |
 | D19 | 2026-11-12 | An explain tool and a reading guide make the pipeline easy to follow | Accepted |
-| D20 | 2026-11-22 | Generation model: shortlist of four open models, chosen by the evaluation | In progress |
+| D20 | 2026-11-23 | Generation model: Qwen3-4B-Instruct-2507, chosen by the Colab comparison | Accepted |
 | D21 | 2026-11-22 | On ZeroGPU: embed with ONNX (not torch) and use the GPU only for generation | Accepted |
 | D22 | 2026-11-22 | Run the model comparison on my Google Colab Pro (school account) | Accepted |
 
@@ -514,7 +514,7 @@ retrieval working on a real question without needing the GPU.
 
 ---
 
-## D20: Choosing the generation model (in progress)
+## D20: Generation model: Qwen3-4B-Instruct-2507
 
 **Context.** The first live test used a 360M-parameter placeholder model. It
 retrieved the right pages but wrote poor answers. It padded with invented
@@ -548,6 +548,27 @@ the same prompt and settings as the live Space (D13, D22). The winner is the
 best-rated model that meets the thresholds. If two are close, the smaller,
 faster one wins.
 
+**Results** (Colab Pro, NVIDIA L4, bf16, 2026-11-23; full answers in
+[model-comparison-answers.md](model-comparison-answers.md)):
+
+| Model | Answer acc | Unanswerable clean | Off-topic refusal | Median answer time |
+|---|---|---|---|---|
+| Qwen3-8B | 100% | 83% | 100% | 3.5 s |
+| Qwen2.5-7B-Instruct | 100% | 100% | 80% | 2.6 s |
+| **Qwen3-4B-Instruct-2507** | **100%** | **100%** | **100%** | **3.2 s** |
+| Granite 3.3 8B Instruct | 100% | 0% | 40% | 3.2 s |
+
+Retrieval was 100% for every model. One expectation in the test set was too
+strict and was corrected before choosing; see [eval-results.md](eval-results.md).
+
+**Decision.** Qwen3-4B-Instruct-2507. It's the only model that passed every
+group, including 100% on questions the site can't answer, which is the
+non-negotiable bar. It's also the smallest, so each answer uses the least
+ZeroGPU time. Chosen with my review of its answers on 2026-11-23.
+
+**Live check.** After deploying, "Has he done any freelance work?" was
+answered correctly in 5.7 s (the placeholder model had said "No").
+
 ---
 
 ## D21: Deploying on ZeroGPU: ONNX embeddings, GPU only for generation
@@ -580,8 +601,8 @@ faster one wins.
 website uses: an off-topic question gets the "not covered" reply in 1.0 s,
 and a real question streams from the GPU in about 7 s.
 
-**Still open.** The placeholder 360M model gives poor answers even with the
-right page retrieved. It said "No" to "Has he done any freelance work?"
+**Was open, now resolved by D20.** The placeholder 360M model gave poor
+answers even with the right page retrieved. It said "No" to "Has he done any freelance work?"
 while the freelance page was in its context. That's what model selection
 (D20) is for.
 
@@ -616,6 +637,15 @@ roughly 30–45 minutes.
 ---
 
 ## Open questions
+
+- **ZeroGPU limits for anonymous visitors.** On 2026-11-23, after a day of
+  testing from my connection, the Space answered "You have exceeded your
+  ZeroGPU runs limit" for anonymous requests. Each visitor has their own
+  allowance, and the widget already shows a "try again later" message for
+  this (D12). Watch whether real visitors hit it.
+- **Less relevant source links.** "Has he done any freelance work?" showed
+  the freelance page plus About me and CST 300 as sources. Consider showing
+  only sources that score close to the top match.
 
 - Custom domain (e.g. ariyabriscoe.com) pointed at GitHub Pages: buy or not.
   A domain doesn't require leaving Pages, and the D1/D3 design is unaffected.
