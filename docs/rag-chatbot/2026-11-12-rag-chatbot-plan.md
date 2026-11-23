@@ -1,7 +1,5 @@
 # Portfolio RAG Chatbot Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-
 **Goal:** Add a grounded RAG chatbot to ryebriscoe.github.io: Jekyll exports the
 site content as JSON, a Gradio app on a free Hugging Face ZeroGPU Space answers
 questions from it, and a floating-bubble widget on the site calls that app.

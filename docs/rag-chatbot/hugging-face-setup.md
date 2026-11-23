@@ -21,7 +21,7 @@ Open **huggingface.co/new-space** (signed in as **rye22**).
 
 A build error or empty page afterwards is normal: no code has been sent yet.
 
-❗ No ZeroGPU option? Stop and tell Claude which options you see.
+❗ No ZeroGPU option? Stop and write down which options you see.
 
 ## 2. Add the DEVICE variable
 
@@ -60,7 +60,7 @@ You should now see **HF_TOKEN** in the list. ✅
   **Update** and paste the new one. Nothing breaks.
 - **Never** paste the token into a chat, note, or email.
 
-## 5. Tell Claude "done"
+## 5. Finish up
 
-Claude checks that the secret and Space exist, merges `rag-chatbot` into
-`main`, sends the code to the Space, and watches the first build (5–10 minutes).
+Check that the secret and Space exist, merge `rag-chatbot` into
+`main`, send the code to the Space, and watch the first build (5–10 minutes).

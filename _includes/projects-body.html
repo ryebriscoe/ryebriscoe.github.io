@@ -4,6 +4,41 @@
   <a href="{{ '/coursework/' | relative_url }}">individual course pages</a>.
 </p>
 
+<h2>Portfolio RAG chatbot</h2>
+<p class="lede">
+  2026 &middot; applied project for Generative AI with Large Language Models &middot;
+  <a href="https://github.com/ryebriscoe/portfolio-chatbot">repository</a>
+</p>
+
+<p>
+  The <code>&gt;_ ask</code> bubble in the corner of this site. It answers
+  recruiters' questions about my coursework, projects, and certifications using
+  only this site's content, and links to the page each answer came from. If the
+  site doesn't cover something, it says so instead of guessing.
+</p>
+
+<p>
+  Each time the site deploys, Jekyll exports its content as one JSON file. A
+  Gradio app on a Hugging Face Space splits it into chunks, embeds them with
+  bge-small (ONNX), and keeps the index in memory with NumPy. Search combines
+  meaning with a keyword bonus, and gpt-oss-20b on Groq writes a short answer
+  from the top 4 chunks. I picked the model by testing four models on the same
+  32 questions on Colab Pro, and every change was scored against that test set.
+  Content refreshes hourly, and each visitor has question limits.
+</p>
+
+<ul class="chips">
+  <li>Python</li>
+  <li>RAG</li>
+  <li>Hugging Face</li>
+  <li>Gradio</li>
+  <li>Groq</li>
+  <li>NumPy</li>
+  <li>JavaScript</li>
+  <li>Jekyll</li>
+  <li>GitHub Actions</li>
+</ul>
+
 <h2>B.A.D. (Basketball Action Detector)</h2>
 <p class="lede">
   <span class="badge is-in_progress">in progress</span> &nbsp; independent research &middot; private repository
