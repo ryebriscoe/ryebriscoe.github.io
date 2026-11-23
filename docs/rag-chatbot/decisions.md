@@ -34,6 +34,8 @@ about my coursework, projects, and certifications using the site's own content.
 | D20 | 2026-11-23 | Generation model: Qwen3-4B-Instruct-2507, chosen by the Colab comparison | Accepted |
 | D21 | 2026-11-22 | On ZeroGPU: embed with ONNX (not torch) and use the GPU only for generation | Accepted |
 | D22 | 2026-11-22 | Run the model comparison on my Google Colab Pro (school account) | Accepted |
+| D23 | 2026-11-23 | Write answers with Groq's hosted API instead of ZeroGPU, so visitors never hit a GPU limit | Accepted |
+| D24 | 2026-11-23 | Model on Groq: gpt-oss-20b, chosen by a 32-question comparison | Accepted |
 
 ---
 
@@ -633,6 +635,76 @@ roughly 30–45 minutes.
   table, a rating sheet, and the raw results.
 - The production bot still runs on Hugging Face, never on my PC. Colab is
   only for this one-time comparison.
+
+---
+
+## D23: Generate answers with Groq instead of ZeroGPU
+
+**Context.** On ZeroGPU each visitor gets about 2 minutes of free GPU time a
+day, counted per person and shared by people on the same network. During
+testing my own connection hit "You have exceeded your ZeroGPU runs limit"
+after a handful of answers. A recruiter could ask a question and have the
+bot stop, which isn't acceptable for a portfolio.
+
+**Options considered.**
+
+| Option | Cost | Can a visitor get cut off? |
+|---|---|---|
+| Stay on ZeroGPU | Free | Yes, per-visitor daily GPU allowance |
+| **Groq hosted API (free tier)** | **Free** | Only past the whole account's daily limit (about 1,000 questions a day) |
+| Paid GPU on the Space (T4, $0.40/hr) | About $10–15/mo with sleep; about $290/mo always on | No, but 1–2 min wake-up after sleeping |
+| Paid model API (e.g. Claude Haiku) | Small, needs a card | Practically no |
+| Hugging Face Inference Providers | $9/mo PRO; free credits removed for free accounts Oct 2026 | No, pay-as-you-go past $2 |
+
+**Decision.** Groq's free tier. Retrieval, the prompt rules, and the widget
+are unchanged. Only the "write the answer" step calls Groq. The Space no
+longer uses the GPU at all (a placeholder GPU function stays so ZeroGPU's
+startup check passes). One setting in `config.yaml` (`generator: hf`)
+switches back to self-hosting with Qwen3-4B (D20).
+
+**Implementation notes.**
+- Groq's API is OpenAI-style; the generator streams the answer and is tested
+  against a fake server.
+- The API key is a secret on the Space (`GROQ_API_KEY`). It's never in the
+  code or on my PC. If it's missing, the bot reports "unavailable" instead of crashing.
+- Groq's open models available to a normal account (checked 2026-11-23):
+  gpt-oss-20b and gpt-oss-120b in production, and Qwen3.8-27B in preview
+  (can be removed at short notice). Llama 3.1/3.3 had become Enterprise-only.
+- The gpt-oss models reason before answering. The generator asks for low
+  reasoning effort and hides the reasoning, and the length cap was raised
+  to 1,024 tokens because reasoning counts against it (answers stay 2–4
+  sentences through the prompt rules).
+
+**Result.** Answers in about 1.3 s, compared with about 6 s on ZeroGPU, with no per-visitor limit.
+
+---
+
+## D24: Model on Groq: gpt-oss-20b
+
+**Comparison** (32 questions through the live Space, 2026-11-23; details in
+[eval-results.md](eval-results.md)):
+
+| Model | Retrieval hit* | Answer acc | Unanswerable clean | Off-topic refusal | Median answer time |
+|---|---|---|---|---|---|
+| **gpt-oss-20b** | 95% | **100%** | **100%** | **100%** | **1.3 s** |
+| gpt-oss-120b | 95% | 90% | 100% | 100% | 1.4 s |
+
+\*Measured from the 3 sources shown under each answer. The capstone
+question's expected page was retrieved and given to the model as the 4th
+chunk, but only 3 sources are displayed.
+
+**Decision.** gpt-oss-20b. Both models answered every factual question
+correctly. gpt-oss-120b's two "misses" were wording ("sites" instead of
+"websites", "still in progress" instead of "currently"), which the keyword
+check counts as wrong. Following the tie-break rule from D20 (when it's
+close, the smaller, faster model wins), gpt-oss-20b is the pick. It passed
+every check as scored and has the lower cost per token if I ever move past
+the free tier. Qwen3.8-27B wasn't tested because preview models aren't
+suitable for a live site.
+
+**Verification.** `/warmup` now reports which model is running, and Space
+evaluations record that instead of trusting a label. This was added after a
+failed deploy meant one run was mislabeled; that run was discarded.
 
 ---
 

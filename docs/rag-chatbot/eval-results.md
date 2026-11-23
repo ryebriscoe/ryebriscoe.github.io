@@ -73,6 +73,34 @@ were rescored without rerunning the models. Only that one row changed.
   the B.A.D. answer: it said EasyOCR "uses homography", and that the model
   is never shown the answer "during training".
 
+### Groq comparison through the live Space (D23, D24)
+
+Run 2026-11-23: 32 questions sent to the deployed Space, 2.5 s apart to stay
+under Groq's per-minute limit. Retrieval here counts the up-to-3 sources
+shown under each answer.
+
+| Model | Retrieval hit | Answer acc | Unanswerable clean | Off-topic refusal | TTFT | Total |
+|---|---|---|---|---|---|---|
+| **gpt-oss-20b** (reasoning: low) | 95% | **100%** | **100%** | **100%** | 1.0 s | **1.3 s** |
+| gpt-oss-120b (reasoning: low) | 95% | 90% | 100% | 100% | 1.0 s | 1.4 s |
+
+**Scoring fix.** Groq's models write non-breaking spaces and hyphens
+("Fall 2026", "self‑employed"), so "When does he graduate?" first
+scored as wrong for gpt-oss-20b. The checker now treats Unicode spaces and
+dashes as normal ones (tested), and the saved answers were rescored.
+
+**Remaining misses.**
+- Both models, capstone question: retrieval "miss" only. CST 499 was the
+  4th chunk given to the model, and only 3 sources are shown. The answer was
+  correct.
+- gpt-oss-120b: correct answers that missed the expected wording ("sites"
+  vs "websites"; "still in progress" vs "currently").
+
+**A discarded run.** One run labeled gpt-oss-120b actually tested
+gpt-oss-20b, because a failed CI check stopped the deploy. It was thrown out,
+and `/warmup` now reports the running model so evaluations record what was
+really deployed.
+
 Site content changed on 2026-11-22 (projects page rewritten, course statuses
 updated, one certification dropped). The question set was updated to match,
 and retrieval stayed at 100% (21/21) on the real export, including after
