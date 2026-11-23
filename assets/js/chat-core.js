@@ -36,6 +36,12 @@ export function appendTurn(history, question, answer, maxTurns = HISTORY_TURNS) 
   return [...history, [question, answer]].slice(-maxTurns);
 }
 
+// Splits a status message around "LinkedIn" so the word itself can be the link.
+export function splitOnLinkedIn(message) {
+  const i = message.lastIndexOf("LinkedIn");
+  return i < 0 ? null : [message.slice(0, i), message.slice(i + "LinkedIn".length)];
+}
+
 export function statusMessage(kind, email) {
   switch (kind) {
     case "waking":

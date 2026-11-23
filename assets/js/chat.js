@@ -7,6 +7,7 @@ import {
   appendTurn,
   chipLabel,
   sourceHref,
+  splitOnLinkedIn,
   statusMessage,
   validateQuestion,
 } from "./chat-core.js";
@@ -81,9 +82,18 @@ function start(root) {
   function setStatus(kind, retryQuestion) {
     status.replaceChildren();
     if (!kind) return;
-    status.append(el("span", { text: statusMessage(kind, email) }));
+    const message = statusMessage(kind, email);
+    const parts = linkedin ? splitOnLinkedIn(message) : null;
+    if (parts) {  // the word "LinkedIn" in the sentence becomes the link
+      status.append(el("span", {}, [
+        parts[0],
+        el("a", { href: linkedin, text: "LinkedIn", rel: "noopener", target: "_blank" }),
+        parts[1],
+      ]));
+    } else {
+      status.append(el("span", { text: message }));
+    }
     if (kind === "unavailable" || kind === "quota") {
-      if (linkedin) status.append(" ", el("a", { href: linkedin, text: "LinkedIn", rel: "noopener", target: "_blank" }));
       if (retryQuestion) {
         status.append(" ", el("button", {
           class: "chat-retry", type: "button", text: "retry",

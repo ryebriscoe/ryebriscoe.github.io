@@ -7,6 +7,7 @@ import {
   appendTurn,
   chipLabel,
   sourceHref,
+  splitOnLinkedIn,
   statusMessage,
   validateQuestion,
 } from "../../assets/js/chat-core.js";
@@ -78,4 +79,12 @@ test("suggestions pair a short label with a full question", () => {
     { label: "Computer vision project?", question: "Tell me about his computer vision project." },
     { label: "AI certifications?", question: "What AI certifications is he working on?" },
   ]);
+});
+
+test("splitOnLinkedIn splits the message around the word so it can become the link", () => {
+  assert.deepEqual(
+    splitOnLinkedIn("The assistant is unavailable right now. Reach Ariya at a@b.c or LinkedIn."),
+    ["The assistant is unavailable right now. Reach Ariya at a@b.c or ", "."],
+  );
+  assert.equal(splitOnLinkedIn("busy right now"), null);
 });
