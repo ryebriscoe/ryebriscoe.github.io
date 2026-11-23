@@ -37,4 +37,9 @@ answer runs below will measure.
 
 | Date | Label | Model | Retrieval hit | Answer acc | Unanswerable clean | Off-topic refusal | TTFT | Total | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| | | | | | | | | | No runs yet. Model selection happens after the Space is deployed. |
+| 2026-11-22 | First live smoke test (3 questions, not the full set) | SmolLM2-360M-Instruct (placeholder) | 3/3 | 0/2 | — | 1/1 | — | 1–7 s | Retrieval correct for all 3. Weather got the instant "not covered" reply. The Java answer padded with invented details; the freelance answer said "No" with the freelance page in context. The model is too small: motivates model selection (D20). |
+
+Site content changed on 2026-11-22 (projects page rewritten, course statuses
+updated, one certification dropped). The question set was updated to match,
+and retrieval stayed at 100% (21/21) on the real export, including after
+switching embeddings to ONNX (D21).

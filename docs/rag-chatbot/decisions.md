@@ -31,6 +31,7 @@ about my coursework, projects, and certifications using the site's own content.
 | D17 | 2026-11-12 | No matching chunks means a fixed "not covered" reply without the model; refusals show no sources | Accepted |
 | D18 | 2026-11-12 | Two generated overview documents answer big-picture questions | Accepted |
 | D19 | 2026-11-12 | An explain tool and a reading guide make the pipeline easy to follow | Accepted |
+| D21 | 2026-11-22 | On ZeroGPU: embed with ONNX (not torch) and use the GPU only for generation | Accepted |
 
 ---
 
@@ -508,6 +509,45 @@ languages question. Retrieval hit rate is 100% (21/21).
 
 **Why.** The explain output doubles as presentation material: it shows
 retrieval working on a real question without needing the GPU.
+
+---
+
+## D21: Deploying on ZeroGPU: ONNX embeddings, GPU only for generation
+
+(D20 is reserved for the generation model choice.)
+
+**Context.** The first deploys to the Space (2026-11-22) failed in three ways:
+1. **Build:** `requirements.txt` pinned `spaces==0.51.3`, but Hugging Face
+   installs its own `spaces==0.52.1` on ZeroGPU Spaces, so pip couldn't resolve.
+2. **Startup:** "No CUDA GPUs are available" when moving the model to
+   `cuda`, because `spaces` was imported after torch.
+3. **Every question,** even ones that never reach the model: the GPU
+   worker failed to start (`worker_init` → "No CUDA GPUs are available").
+   The GPU was allocated, but the worker couldn't use it. A known cause is
+   running torch in the main process: the app embedded all chunks with
+   sentence-transformers (torch) at startup.
+
+**Decisions.**
+- Let Hugging Face provide `gradio`, `spaces`, and `torch` on the Space.
+  They're pinned only in `requirements-dev.txt` for local runs.
+- `app.py` imports `spaces` first, before anything touches torch. A test
+  pins this order.
+- Search embeddings use **fastembed (ONNX Runtime)** instead of torch. It's
+  the same `bge-small-en-v1.5` model, and the vectors match the torch
+  version exactly (cosine 1.0); retrieval is still 100%. A test checks
+  that embedding never loads torch.
+- Only the generation step is decorated with `@spaces.GPU`. Validation,
+  search, and the "not covered" shortcut run without a GPU, so instant
+  replies use none of a visitor's daily GPU time.
+
+**Result.** The Space runs on ZeroGPU and answers through the same API the
+website uses: an off-topic question gets the "not covered" reply in 1.0 s,
+and a real question streams from the GPU in about 7 s.
+
+**Still open.** The placeholder 360M model gives poor answers even with the
+right page retrieved. It said "No" to "Has he done any freelance work?"
+while the freelance page was in its context. That's what model selection
+(D20) is for.
 
 ---
 
