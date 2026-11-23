@@ -52,7 +52,7 @@ exclude:
   - vendor
 
 chatbot:
-  enabled: false
+  enabled: true
   space: "rye22/ask-about-ariya"
 
 photo: /assets/img/ariya.jpg
