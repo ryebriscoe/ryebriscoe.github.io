@@ -39,5 +39,9 @@
   courses_total: 13
   blurb: >-
     Machine learning and deep learning for production AI systems, covering
-    model building, training, and deployment.
-  tech: [Python, Deep learning, Model deployment]
+    model building, training, and deployment. So far I've built a waste
+    product classifier with VGG16 transfer learning (79% accuracy, 87% after
+    fine-tuning), compared Keras and PyTorch CNNs that sort satellite images
+    into farmland or not (99.3% and 99.9% accuracy on 6,000 test images), and
+    trained Vision Transformers in both frameworks.
+  tech: [Python, PyTorch, Keras, TensorFlow, Transfer learning, Vision Transformers]
